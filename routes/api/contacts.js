@@ -1,5 +1,4 @@
 import express from 'express';
-import * as api from '../../models/contacts.js';
 import * as contactsSchemas from '../../schemas/contactsSchemas.js';
 import { contactsController } from '../../controllers/contactsController.js';
 import { validateBody } from '../../decorators/validateBody.js';

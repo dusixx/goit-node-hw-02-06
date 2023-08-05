@@ -1,11 +1,8 @@
 import express from 'express';
 import * as api from '../../models/contacts.js';
+import * as contactsSchemas from '../../schemas/contactsSchemas.js';
 import { contactsController } from '../../controllers/contactsController.js';
-
-import {
-  validateAddedBody,
-  validateUpdatedBody,
-} from '../../decorators/validateBody.js';
+import { validateBody } from '../../decorators/validateBody.js';
 
 export const router = express.Router();
 
@@ -16,10 +13,18 @@ router.get('/', contactsController.listContacts);
 router.get('/:id', contactsController.getContactById);
 
 // POST: добавление нового контакта
-router.post('/', validateAddedBody(), contactsController.addContact);
+router.post(
+  '/',
+  validateBody(contactsSchemas.addedContactScheme),
+  contactsController.addContact
+);
 
 // DELETE id: удаление контакта с заданным id
 router.delete('/:id', contactsController.removeContact);
 
 // PUT id: изменение контакта с заданным id
-router.put('/:id', validateUpdatedBody(), contactsController.updateContact);
+router.put(
+  '/:id',
+  validateBody(contactsSchemas.updatedContactScheme),
+  contactsController.updateContact
+);

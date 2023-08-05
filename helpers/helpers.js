@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-export const getId = nanoid;
+export const genId = nanoid;
 
 export const HTTP_STATUS = {
   ok: 200,
@@ -11,13 +11,20 @@ export const HTTP_STATUS = {
   invalidData: 422,
 };
 
-export const formatName = v => (v ? String(v).replace(/\s*/, ' ').trim() : '');
+export const format = {
+  name(v) {
+    return v ? String(v).replace(/\s*/, ' ').trim() : '';
+  },
 
-export const formatEmail = v => (v ? String(v).trim() : '');
+  email(v) {
+    return v ? String(v).trim() : '';
+  },
 
-export const formatPhone = v =>
-  v
-    ? String(v)
-        .replace(/[\s-]/g, '')
-        .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
-    : '';
+  phone(v) {
+    return v
+      ? String(v)
+          .replace(/[\s-]/g, '')
+          .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+      : '';
+  },
+};

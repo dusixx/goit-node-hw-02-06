@@ -1,12 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-
-import {
-  getId,
-  formatEmail,
-  formatName,
-  formatPhone,
-} from '../helpers/helpers.js';
+import { genId, format } from '../helpers/helpers.js';
 
 const CONTACTS_PATH = path.resolve('models', 'contacts.json');
 const DEF_CHARSET = 'utf-8';
@@ -108,10 +102,10 @@ export const addContact = async body => {
 
   // форматируем данные контакта
   const data = {
-    id: getId(),
-    name: formatName(name),
-    phone: formatPhone(phone),
-    email: formatEmail(email),
+    id: genId(),
+    name: format.name(name),
+    phone: format.phone(phone),
+    email: format.email(email),
   };
 
   // добавляем контакт в БД
@@ -138,9 +132,9 @@ export const updateContact = async (id, body) => {
   // обновляем только те поля, для которых заданы валидные значения
   const newData = {
     id,
-    name: formatName(name) || curData.name,
-    phone: formatPhone(phone) || curData.phone,
-    email: formatEmail(email) || curData.email,
+    name: format.name(name) || curData.name,
+    phone: format.phone(phone) || curData.phone,
+    email: format.email(email) || curData.email,
   };
 
   // обновляем БД

@@ -130,6 +130,8 @@ export const updateContact = async (id, body) => {
   const curData = list[updatedIndex];
 
   // обновляем только те поля, для которых заданы валидные значения
+  // (!!) хотя по докам PUT должен получать все поля,
+  // в т.ч.те, которые не обновляются
   const newData = {
     id,
     name: format.name(name) || curData.name,

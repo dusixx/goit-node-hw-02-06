@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { genId, format } from '../helpers/helpers.js';
+import { genId, format } from '../helpers/index.js';
 
 const CONTACTS_PATH = path.resolve('models', 'contacts.json');
 const DEF_CHARSET = 'utf-8';

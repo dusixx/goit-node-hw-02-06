@@ -1,7 +1,7 @@
 import express from 'express';
-import * as contactsSchemas from '../../schemas/contactsSchemas.js';
-import { contactsController } from '../../controllers/contactsController.js';
-import { validateBody } from '../../decorators/validateBody.js';
+import * as contactsSchemas from '../../schemas/index.js';
+import { contactsController } from '../../controllers/index.js';
+import { validateBody } from '../../decorators/index.js';
 
 export const router = express.Router();
 

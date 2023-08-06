@@ -1,7 +1,6 @@
 import * as db from '../models/contacts.js';
-import HttpError from '../helpers/HttpError.js';
-import { HTTP_STATUS } from '../helpers/helpers.js';
-import { controllerWrapper } from '../decorators/controllerWrapper.js';
+import { HttpError, HTTP_STATUS } from '../helpers/index.js';
+import { controllerWrapper } from '../decorators/index.js';
 
 const ERR_ALREADY_EXISTS =
   'A contact with the same email or phone already exists';

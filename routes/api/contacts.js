@@ -11,15 +11,15 @@ router.get('/', contactsController.listContacts);
 // GET id: получение контакта с заднным id
 router.get('/:id', contactsController.getContactById);
 
+// DELETE id: удаление контакта с заданным id
+router.delete('/:id', contactsController.removeContact);
+
 // POST: добавление нового контакта
 router.post(
   '/',
   validateBody(contactsSchemas.addedContactScheme),
   contactsController.addContact
 );
-
-// DELETE id: удаление контакта с заданным id
-router.delete('/:id', contactsController.removeContact);
 
 // PUT id: изменение контакта с заданным id
 router.put(

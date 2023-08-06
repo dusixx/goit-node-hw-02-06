@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { genId, format } from '../helpers/helpers.js';
+import { genId, format } from '../helpers/index.js';
 
 const CONTACTS_PATH = path.resolve('models', 'contacts.json');
 const DEF_CHARSET = 'utf-8';
@@ -130,8 +130,7 @@ export const updateContact = async (id, body) => {
   const curData = list[updatedIndex];
 
   // обновляем только те поля, для которых заданы валидные значения
-  // (!!) хотя по докам PUT должен получать все поля,
-  // в т.ч.те, которые не обновляются
+  // (!!) хотя по докам PUT должен получать все поля, в тч те, которые не обновляются
   const newData = {
     id,
     name: format.name(name) || curData.name,

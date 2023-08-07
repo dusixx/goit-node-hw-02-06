@@ -2,28 +2,40 @@ import express from 'express';
 import * as contactsSchemas from '../../schemas/index.js';
 import { contactsController } from '../../controllers/index.js';
 import { validateBody } from '../../decorators/index.js';
+import { isValidId } from '../../middlewares/index.js';
 
 export const router = express.Router();
 
-// GET: получение списка всех контактов
+// GET
+// получение списка всех контактов
 router.get('/', contactsController.listContacts);
 
-// GET id: получение контакта с заднным id
-router.get('/:id', contactsController.getContactById);
+// POST
+// добавление нового контакта
+router.post('/', contactsController.addContact);
 
-// DELETE id: удаление контакта с заданным id
-router.delete('/:id', contactsController.removeContact);
+// GET id
+// получение контакта с заднным id
+router.get('/:id', isValidId, contactsController.getContactById);
 
-// POST: добавление нового контакта
-router.post(
-  '/',
-  validateBody(contactsSchemas.addedContactScheme),
-  contactsController.addContact
-);
-
-// PUT id: изменение контакта с заданным id
+// PUT id
+// изменение контакта с заданным id
 router.put(
   '/:id',
-  validateBody(contactsSchemas.updatedContactScheme),
-  contactsController.updateContact
+  isValidId,
+  validateBody(contactsSchemas.contactAddSchema),
+  contactsController.updateContactById
 );
+
+// PATCH id/favorite
+// изменение поля favorite
+router.patch(
+  '/:id/favorite',
+  isValidId,
+  validateBody(contactsSchemas.contactUpdateFavoriteSchema),
+  contactsController.updateContactFavoriteById
+);
+
+// DELETE id
+// удаление контакта с заданным id
+router.delete('/:id', isValidId, contactsController.removeContactById);

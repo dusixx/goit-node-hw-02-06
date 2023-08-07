@@ -1,36 +1,31 @@
 import Joi from 'joi';
+import { VALIDATION } from '../constants/index.js';
 
-const message = {
-  phone: 'Phone must be 10 digits long and may contain spaces and hyphens',
-
-  name: [
-    'First name and last name (optional)',
-    'must contain only latin letters,',
-    'start with a capital and',
-    'be at least 2 characters long',
-  ].join(' '),
-
-  email: 'Invalid email',
-};
+const { name, phone, email } = VALIDATION;
 
 const schemeObject = {
   name: Joi.string()
-    .pattern(/^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/)
-    .messages({ 'string.pattern.base': message.name }),
+    .pattern(name.pattern)
+    .messages({ 'string.pattern.base': name.message }),
 
   phone: Joi.string()
-    .pattern(/^([\s-]*\d[\s-]*){10}$/)
-    .messages({ 'string.pattern.base': message.phone }),
+    .pattern(phone.pattern)
+    .messages({ 'string.pattern.base': phone.message }),
 
   email: Joi.string().email({ minDomainSegments: 2 }),
 };
 
 // все поля обязательны
-export const addedContactScheme = Joi.object(schemeObject).options({
+export const contactAddSchema = Joi.object(schemeObject).options({
   presence: 'required',
 });
 
+// favorite обязательное
+export const contactUpdateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
 // минимум одно обязательное
-export const updatedContactScheme = Joi.object(schemeObject)
-  .or(...Object.keys(schemeObject))
-  .messages({ 'object.missing': 'At least one field is required' });
+// export const updatedContactScheme = Joi.object(schemeObject)
+//   .or(...Object.keys(schemeObject))
+//   .messages({ 'object.missing': 'At least one field is required' });

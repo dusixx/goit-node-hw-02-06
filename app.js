@@ -22,7 +22,7 @@ app.use((req, res) => {
 
 // общий обработчик ошибок
 app.use((err, req, res, next) => {
-  const { status, message } = err;
+  const { status = 500, message = 'Server error' } = err;
   res.status(status).json({ message });
 });
 

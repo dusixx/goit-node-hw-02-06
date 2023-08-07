@@ -12,7 +12,9 @@ const schemeObject = {
     .pattern(phone.pattern)
     .messages({ 'string.pattern.base': phone.message }),
 
-  email: Joi.string().email({ minDomainSegments: 2 }),
+  email: Joi.string()
+    .email({ minDomainSegments: 2 })
+    .messages({ 'string.email': email.message }),
 };
 
 // все поля обязательны

@@ -10,13 +10,17 @@ export const router = express.Router();
 // получение списка всех контактов
 router.get('/', contactsController.listContacts);
 
-// POST
-// добавление нового контакта
-router.post('/', contactsController.addContact);
-
 // GET id
 // получение контакта с заднным id
 router.get('/:id', isValidId, contactsController.getContactById);
+
+// POST
+// добавление нового контакта
+router.post(
+  '/',
+  validateBody(contactsSchemas.contactAddSchema),
+  contactsController.addContact
+);
 
 // PUT id
 // изменение контакта с заданным id

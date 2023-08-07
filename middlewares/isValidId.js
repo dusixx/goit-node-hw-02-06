@@ -4,8 +4,7 @@ import { HTTP_STATUS } from '../constants/index.js';
 
 export const isValidId = ({ params }, res, next) => {
   const { id } = params;
-  if (!isValidObjectId(id)) {
-    return next(HttpError(HTTP_STATUS.badRequest, `${id} is not a valid id`));
-  }
-  next();
+  return isValidObjectId(id)
+    ? next()
+    : next(HttpError(HTTP_STATUS.badRequest, `${id} is not a valid id`));
 };

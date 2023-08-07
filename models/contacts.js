@@ -6,55 +6,30 @@ import { VALIDATION } from '../constants/index.js';
 // validation
 //
 
-const { name, phone, email } = VALIDATION;
-
-const validator = {
-  phone: {
-    type: String,
-    required: true,
-    validate: {
-      validator: v => phone.pattern.test(v),
-      message: () => phone.message,
-    },
-  },
-  name: {
-    type: String,
-    required: true,
-    validate: {
-      validator: v => name.pattern.test(v),
-      message: () => name.message,
-    },
-  },
-  email: {
-    type: String,
-    required: true,
-    validate: {
-      validator: v => email.pattern.test(v),
-      message: () => email.message,
-    },
-  },
-  favorite: {
-    type: Boolean,
-    default: false,
-  },
-};
-
-//
-// schema
-//
-
-const contactSchema = new Schema(
-  {
-    name: validator.name,
-    email: validator.email,
-    phone: validator.phone,
-    favorite: validator.favorite,
+const docShape = Object.entries(VALIDATION).reduce(
+  (res, [key, value]) => {
+    res[key] = {
+      type: String,
+      required: true,
+      validate: {
+        validator: v => value.pattern.test(v),
+        message: () => value.message,
+      },
+    };
+    return res;
   },
   {
-    versionKey: false,
-    timestamps: true,
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
   }
 );
+
+const contactSchema = new Schema(docShape, {
+  versionKey: false,
+  timestamps: true,
+});
 
 //
 // hooks

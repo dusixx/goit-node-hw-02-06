@@ -13,7 +13,7 @@ try {
 
   app.listen(SERVER_PORT, () => {
     console.log(
-      `Server running on port ${SERVER_PORT}\nmode: ${app.get('env')}`
+      `Server running on port ${SERVER_PORT}\nMode: ${app.get('env')}`
     );
   });
 } catch ({ message }) {

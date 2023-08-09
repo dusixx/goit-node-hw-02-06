@@ -9,9 +9,11 @@ import dotenv from 'dotenv';
  */
 export const connectMongoDb = async (dbName, varName = 'DB_HOST') => {
   dotenv.config();
-  const connStr = process.env[varName].replace('<db_name>', dbName || '');
-  if (process.env.NODE_ENV === 'development') console.log(connStr);
-  return await mongoose.connect(connStr);
+
+  const uri = process.env[varName].replace('<db_name>', dbName || '');
+  if (process.env.NODE_ENV === 'development') console.log(uri);
+
+  return await mongoose.connect(uri);
 };
 
 /**
@@ -21,8 +23,9 @@ export const connectMongoDb = async (dbName, varName = 'DB_HOST') => {
  */
 export const parseValidationErrorMessage = errOrMsg => {
   const message = errOrMsg?.message ?? errOrMsg ?? '';
-  // последняя часть сообщения (premsg1: premsg2: message[customMessage])
+  // premsg1: premsg2: message[customMessage]
   const [, result] = message.match(/^(?:[^:]+:){2}(.+)$/);
+
   return result.trim();
 };
 
@@ -35,5 +38,6 @@ export const parseDupKeyErrorMessage = errOrMsg => {
   const message = errOrMsg?.message ?? errOrMsg ?? '';
   // для случая с индексом по отдельным полям (некомбинированного)
   const [, result] = message.match(/\{(.+):.+\}$/);
+
   return result.trim();
 };

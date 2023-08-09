@@ -1,53 +1,56 @@
-import * as db from '../models/contacts.js';
-import { HttpError, HTTP_STATUS } from '../helpers/index.js';
+import { HttpError } from '../helpers/index.js';
+import { HTTP_STATUS } from '../constants/index.js';
 import { controllerWrapper } from '../decorators/index.js';
+import { Contact } from '../models/contacts.js';
 
-const ERR_ALREADY_EXISTS =
-  'A contact with the same email or phone already exists';
+//
+// controllers
+//
 
 const listContacts = async (req, res, next) => {
-  const list = await db.listContacts();
+  // можно указать параметры, например, .find({}, '-createdAt -updatedAt')
+  const list = await Contact.find();
   res.json(list);
 };
 
-const getContactById = async ({ params }, res, next) => {
-  const { id } = params;
-  const data = await db.getContactById(id);
-
-  if (!data) throw HttpError(HTTP_STATUS.notFound);
-  res.json(data);
-};
-
 const addContact = async ({ body }, res, next) => {
-  // вернет null, если контакт с таким email|phone уже есть
-  const data = await db.addContact(body);
-
-  if (!data) throw HttpError(HTTP_STATUS.alreadyExists, ERR_ALREADY_EXISTS);
-  res.status(HTTP_STATUS.created).json(data);
+  const result = await Contact.create(body);
+  res.status(HTTP_STATUS.created).json(result);
 };
 
-const removeContact = async ({ params }, res, next) => {
-  const { id } = params;
-  const data = await db.removeContact(id);
-
-  if (!data) throw HttpError(HTTP_STATUS.notFound);
-  res.json(data);
+const getContactById = async ({ params: { id } }, res, next) => {
+  const result = await Contact.findById(id);
+  if (!result) throw HttpError(HTTP_STATUS.notFound);
+  res.json(result);
 };
 
-const updateContact = async (req, res) => {
-  const { id } = req.params;
-  const body = req.validatedBody ?? req.body;
-  const data = await db.updateContact(id, body);
-
-  if (!data) throw HttpError(HTTP_STATUS.notFound);
-  res.json(data);
+const updateContactById = async ({ body, params: { id } }, res) => {
+  const result = await Contact.findByIdAndUpdate(id, body, { new: true });
+  if (!result) throw HttpError(HTTP_STATUS.notFound);
+  res.json(result);
 };
 
+const updateContactFavoriteById = async ({ body, params: { id } }, res) => {
+  const result = await Contact.findByIdAndUpdate(id, body, { new: true });
+  if (!result) throw HttpError(HTTP_STATUS.notFound);
+  res.json(result);
+};
+
+const removeContactById = async ({ params: { id } }, res, next) => {
+  const result = await Contact.findByIdAndDelete(id);
+  if (!result) throw HttpError(HTTP_STATUS.notFound);
+  res.json(result);
+};
+
+//
 // wrappers
+//
+
 export const contactsController = {
   listContacts: controllerWrapper(listContacts),
-  getContactById: controllerWrapper(getContactById),
   addContact: controllerWrapper(addContact),
-  removeContact: controllerWrapper(removeContact),
-  updateContact: controllerWrapper(updateContact),
+  getContactById: controllerWrapper(getContactById),
+  updateContactById: controllerWrapper(updateContactById),
+  updateContactFavoriteById: controllerWrapper(updateContactFavoriteById),
+  removeContactById: controllerWrapper(removeContactById),
 };

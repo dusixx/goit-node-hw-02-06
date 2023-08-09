@@ -10,7 +10,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 
 // авто конвертация бинарных данных
-// в заданный полем Content - type формат
+// в заданный полем Content-type формат
 app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);
@@ -22,7 +22,7 @@ app.use((req, res) => {
 
 // общий обработчик ошибок
 app.use((err, req, res, next) => {
-  const { status, message } = err;
+  const { status = 500, message = 'Server error' } = err;
   res.status(status).json({ message });
 });
 

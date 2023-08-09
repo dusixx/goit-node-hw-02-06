@@ -6,26 +6,32 @@ const { name, phone, email } = VALIDATION;
 const schemeObject = {
   name: Joi.string()
     .pattern(name.pattern)
-    .messages({ 'string.pattern.base': name.message }),
+    .messages({ 'string.pattern.base': name.message })
+    .required(),
 
   phone: Joi.string()
     .pattern(phone.pattern)
-    .messages({ 'string.pattern.base': phone.message }),
+    .messages({ 'string.pattern.base': phone.message })
+    .required(),
 
   email: Joi.string()
     .email({ minDomainSegments: 2 })
-    .messages({ 'string.email': email.message }),
+    .messages({ 'string.email': email.message })
+    .required(),
+
+  favorite: Joi.boolean().default(false),
 };
 
-// все поля обязательны
-export const contactAddSchema = Joi.object(schemeObject).options({
-  presence: 'required',
-});
+export const contactAddSchema = Joi.object(schemeObject);
 
-// favorite обязательное
 export const contactUpdateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
+
+// все поля обязательны
+// export const contactAddSchema = Joi.object(schemeObject).options({
+//   presence: 'required',
+// });
 
 // минимум одно обязательное
 // export const updatedContactScheme = Joi.object(schemeObject)

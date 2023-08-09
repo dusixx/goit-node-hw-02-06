@@ -1,45 +1,43 @@
 import { HttpError } from '../helpers/index.js';
 import { HTTP_STATUS } from '../constants/index.js';
 import { controllerWrapper } from '../decorators/index.js';
-import { Contact as col } from '../models/contacts.js';
+import { Contact } from '../models/contacts.js';
 
-// const ERR_ALREADY_EXISTS =
-//   'A contact with the same email or phone already exists';
+//
+// controllers
+//
 
 const listContacts = async (req, res, next) => {
-  const list = await col.find(/* {}, '-createdAt -updatedAt */);
+  // можно указать параметры, например, .find({}, '-createdAt -updatedAt')
+  const list = await Contact.find();
   res.json(list);
 };
 
 const addContact = async ({ body }, res, next) => {
-  const result = await col.create(body);
+  const result = await Contact.create(body);
   res.status(HTTP_STATUS.created).json(result);
 };
 
-const getContactById = async ({ params }, res, next) => {
-  const { id } = params;
-  const result = await col.findById(id);
+const getContactById = async ({ params: { id } }, res, next) => {
+  const result = await Contact.findById(id);
   if (!result) throw HttpError(HTTP_STATUS.notFound);
   res.json(result);
 };
 
-const updateContactById = async (req, res) => {
-  const { id } = req.params;
-  const result = await col.findByIdAndUpdate(id, req.body, { new: true });
+const updateContactById = async ({ body, params: { id } }, res) => {
+  const result = await Contact.findByIdAndUpdate(id, body, { new: true });
   if (!result) throw HttpError(HTTP_STATUS.notFound);
   res.json(result);
 };
 
-const updateContactFavoriteById = async (req, res) => {
-  const { id } = req.params;
-  const result = await col.findByIdAndUpdate(id, req.body, { new: true });
+const updateContactFavoriteById = async ({ body, params: { id } }, res) => {
+  const result = await Contact.findByIdAndUpdate(id, body, { new: true });
   if (!result) throw HttpError(HTTP_STATUS.notFound);
   res.json(result);
 };
 
-const removeContactById = async ({ params }, res, next) => {
-  const { id } = params;
-  const result = await col.findByIdAndDelete(id);
+const removeContactById = async ({ params: { id } }, res, next) => {
+  const result = await Contact.findByIdAndDelete(id);
   if (!result) throw HttpError(HTTP_STATUS.notFound);
   res.json(result);
 };

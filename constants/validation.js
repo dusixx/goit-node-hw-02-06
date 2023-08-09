@@ -16,7 +16,7 @@ export const VALIDATION = {
     ].join(' '),
   },
   email: {
-    pattern: /^\S+@\S+\.\S+$/,
+    pattern: /^\s*\S+@\S+\.\S+\s*$/,
     message: 'Invalid email',
   },
 };

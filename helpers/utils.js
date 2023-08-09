@@ -1,14 +1,11 @@
-import { nanoid } from 'nanoid';
-
-export const genId = nanoid;
 export const isStr = v => typeof v === 'string';
 
 export const format = {
   name(v) {
-    return isStr(v) ? v.replace(/\s*/, ' ').trim() : '';
+    return isStr(v) ? v.replace(/\s+/, ' ').trim() : '';
   },
   email(v) {
-    return isStr(v) ? v.trim() : '';
+    return isStr(v) ? v.trim().toLowerCase() : '';
   },
   phone(v) {
     return isStr(v)

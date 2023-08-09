@@ -1,6 +1,7 @@
 import { HttpError } from '../helpers/index.js';
 import { HTTP_STATUS } from '../constants/index.js';
 
+// joi-schema validation
 export const validateBody = schema => {
   return async (req, res, next) => {
     try {

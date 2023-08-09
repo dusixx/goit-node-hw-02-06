@@ -1,9 +1,9 @@
 import Joi from 'joi';
-import { VALIDATION } from '../constants/index.js';
+import { VALIDATION } from '../../constants/index.js';
 
 const { name, phone, email } = VALIDATION;
 
-const schemeObject = {
+const shape = {
   name: Joi.string()
     .pattern(name.pattern)
     .messages({ 'string.pattern.base': name.message })
@@ -22,11 +22,12 @@ const schemeObject = {
   favorite: Joi.boolean().default(false),
 };
 
-export const contactAddSchema = Joi.object(schemeObject);
-
-export const contactUpdateFavoriteSchema = Joi.object({
-  favorite: Joi.boolean().required(),
-});
+export const schema = {
+  add: Joi.object(shape),
+  updateStatus: Joi.object({
+    favorite: Joi.boolean().required(),
+  }),
+};
 
 // все поля обязательны
 // export const contactAddSchema = Joi.object(schemeObject).options({

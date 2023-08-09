@@ -7,6 +7,8 @@ dotenv.config();
 const { SERVER_PORT } = process.env;
 const DB_NAME = 'db-contacts';
 
+console.log('\n\x1b[100mSrarting server...', '\x1b[0m');
+
 try {
   await connectMongoDb(DB_NAME);
   console.log('Database connection successful');

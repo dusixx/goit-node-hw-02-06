@@ -1,54 +1,17 @@
-import { Schema, model } from 'mongoose';
-import { VALIDATION } from '../constants/index.js';
-import { format } from '../helpers/utils.js';
+import { model } from 'mongoose';
 import * as hook from './hooks.js';
+import { schema } from '../schemas/contacts/index.js';
 
-//
-// document shape
-//
-
-const docShape = Object.entries(VALIDATION).reduce(
-  (res, [fieldName, { pattern, message }]) => {
-    res[fieldName] = {
-      type: String,
-      required: true,
-      trim: true,
-      validate: {
-        validator: v => pattern.test(v),
-        message,
-      },
-    };
-    return res;
-  },
-  {
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
-  }
-);
-
-// email и phone должны быть уникальными
-const { email, phone } = docShape;
-email.unique = phone.unique = true;
-
-const contactSchema = new Schema(docShape, {
-  versionKey: false,
-  timestamps: true,
-});
-
-//
-// hooks
-//
+const { mongoose: mongooseSchema } = schema;
 
 // валидация при обновлении
-contactSchema.pre('findOneAndUpdate', hook.handlePreUpdateValidate);
+mongooseSchema.pre('findOneAndUpdate', hook.handlePreUpdateValidate);
 
 // форматирование перед сохранением
-contactSchema.pre('save', hook.handlePreSaveFormatting);
+mongooseSchema.pre('save', hook.handlePreSaveFormatting);
 
 // обработка ошибок при обновлении/добавлении
-contactSchema.post('findOneAndUpdate', hook.handlePostSaveError);
-contactSchema.post('save', hook.handlePostSaveError);
+mongooseSchema.post('findOneAndUpdate', hook.handlePostSaveError);
+mongooseSchema.post('save', hook.handlePostSaveError);
 
-export const Contact = model('contact', contactSchema);
+export const Contact = model('contact', mongooseSchema);

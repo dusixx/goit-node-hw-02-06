@@ -1,8 +1,8 @@
 import express from 'express';
-import { joiSchema } from '../../schemas/contacts/index.js';
-import { ctrl } from '../../controllers/contacts/index.js';
 import { validateBody } from '../../decorators/index.js';
 import { isValidId } from '../../middlewares/index.js';
+import { joiSchema as schema } from '../../schemas/contacts/index.js';
+import { ctrl } from '../../controllers/contacts/index.js';
 
 export const router = express.Router();
 
@@ -16,18 +16,18 @@ router.get('/:id', isValidId, ctrl.getById);
 
 // POST
 // добавление нового контакта
-router.post('/', validateBody(joiSchema.add), ctrl.add);
+router.post('/', validateBody(schema.add), ctrl.add);
 
 // PUT id
 // изменение контакта с заданным id
-router.put('/:id', isValidId, validateBody(joiSchema.add), ctrl.updateById);
+router.put('/:id', isValidId, validateBody(schema.add), ctrl.updateById);
 
 // PATCH id/favorite
 // изменение поля favorite
 router.patch(
   '/:id/favorite',
   isValidId,
-  validateBody(joiSchema.updateStatus),
+  validateBody(schema.updateStatus),
   ctrl.updateStatusById
 );
 

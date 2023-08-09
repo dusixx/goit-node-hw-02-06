@@ -1,5 +1,6 @@
 import app from './app.js';
 import dotenv from 'dotenv';
+import chalk from 'chalk';
 import { connectMongoDb } from './helpers/index.js';
 
 dotenv.config();
@@ -7,11 +8,13 @@ dotenv.config();
 const { SERVER_PORT } = process.env;
 const DB_NAME = 'db-contacts';
 
-console.log('\n\x1b[100mSrarting server...', '\x1b[0m');
+console.log(chalk.bgGrey('\nConnecting db...'));
 
 try {
   await connectMongoDb(DB_NAME);
   console.log('Database connection successful');
+
+  console.log(chalk.bgGrey('Srarting server...'));
 
   app.listen(SERVER_PORT, () => {
     console.log(
@@ -19,5 +22,5 @@ try {
     );
   });
 } catch ({ message }) {
-  console.error(`\x1b[41mError:`, `${message}\x1b[0m`);
+  console.error(chalk.red(`Error: ${message}\n`));
 }

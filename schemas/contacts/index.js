@@ -1,7 +1,2 @@
-import { schema as joi } from './joi.js';
-import { schema as mongoose } from './mongoose.js';
-
-export const schema = {
-  joi,
-  mongoose,
-};
+export { schema as joiSchema } from './joi.js';
+export { schema as mongooseSchema } from './mongoose.js';

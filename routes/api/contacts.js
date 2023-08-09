@@ -1,12 +1,10 @@
 import express from 'express';
-import { schema } from '../../schemas/contacts/index.js';
+import { joiSchema } from '../../schemas/contacts/index.js';
 import { ctrl } from '../../controllers/contacts/index.js';
 import { validateBody } from '../../decorators/index.js';
 import { isValidId } from '../../middlewares/index.js';
 
 export const router = express.Router();
-
-const { joi: joiSchema } = schema;
 
 // GET
 // получение списка всех контактов

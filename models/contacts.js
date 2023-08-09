@@ -1,8 +1,6 @@
 import { model } from 'mongoose';
 import * as hook from './hooks.js';
-import { schema } from '../schemas/contacts/index.js';
-
-const { mongoose: mongooseSchema } = schema;
+import { mongooseSchema } from '../schemas/contacts/index.js';
 
 // валидация при обновлении
 mongooseSchema.pre('findOneAndUpdate', hook.handlePreUpdateValidate);

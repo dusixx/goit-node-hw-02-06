@@ -15,11 +15,8 @@ const docShape = Object.entries(VALIDATION).reduce(
       trim: true,
       validate: {
         validator: v => pattern.test(v),
-        //можно message: props => '${props.value} ...'
         message,
       },
-      // (!!) сработает перед валидацией, надо чтобы до
-      // set: format[fieldName],
     };
     return res;
   },
@@ -32,7 +29,7 @@ const docShape = Object.entries(VALIDATION).reduce(
 );
 
 // email и phone должны быть уникальными
-const { name, email, phone } = docShape;
+const { email, phone } = docShape;
 email.unique = phone.unique = true;
 
 const contactSchema = new Schema(docShape, {

@@ -5,10 +5,11 @@ import { connectMongoDb } from './helpers/index.js';
 dotenv.config();
 
 const { SERVER_PORT } = process.env;
-const DB_NAME = 'db0';
+const DB_NAME = 'db-contacts';
 
 try {
   await connectMongoDb(DB_NAME);
+  console.log('Database connection successful');
 
   app.listen(SERVER_PORT, () => {
     console.log(

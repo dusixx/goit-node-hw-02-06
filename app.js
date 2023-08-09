@@ -10,7 +10,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 
 // авто конвертация бинарных данных
-// в заданный полем Content - type формат
+// в заданный полем Content-type формат
 app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);

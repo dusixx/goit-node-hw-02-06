@@ -46,8 +46,10 @@ const contactSchema = new Schema(docShape, {
 
 // валидация при обновлении
 contactSchema.pre('findOneAndUpdate', hook.handlePreUpdateValidate);
+
 // форматирование перед сохранением
 contactSchema.pre('save', hook.handlePreSaveFormatting);
+
 // обработка ошибок при обновлении/добавлении
 contactSchema.post('findOneAndUpdate', hook.handlePostSaveError);
 contactSchema.post('save', hook.handlePostSaveError);

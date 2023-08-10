@@ -1,25 +1,21 @@
 import { HTTP_STATUS } from '../constants/index.js';
 import { format } from '../helpers/index.js';
-
-import {
-  parseValidationErrorMessage,
-  parseDupKeyErrorMessage,
-} from '../helpers/mongoDb.js';
+import { db } from '../helpers/index.js';
 
 const ERR_CODE_DUPLICATE_KEY = 11000;
 
 export const handlePostSaveError = function (err, doc, next) {
   switch (err.name) {
     case 'ValidationError':
-      const { reason } = parseValidationErrorMessage(err.message);
+      const { reason } = db.parseValidationErrorMessage(err.message);
       err.message = reason;
       err.status = HTTP_STATUS.badRequest;
       break;
 
     case 'MongoServerError':
       if (err.code === ERR_CODE_DUPLICATE_KEY) {
-        const { key } = parseDupKeyErrorMessage(err.message);
-        err.message = `Duplicate key: "${key}"`;
+        const { key } = db.parseDupKeyErrorMessage(err.message);
+        err.message = `"${key}" already exists`;
         err.status = HTTP_STATUS.conflict;
       }
   }
@@ -32,7 +28,6 @@ export const handlePreUpdateValidate = function (next) {
 };
 
 export const handlePreSaveFormatting = function (next) {
-  // this._doc - добавляемые данные (документ)
   const doc = this._doc;
 
   Object.entries(doc).forEach(([key, value]) => {

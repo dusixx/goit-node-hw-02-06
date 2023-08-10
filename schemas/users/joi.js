@@ -23,5 +23,9 @@ const shape = {
 
 export const schema = {
   signup: Joi.object(shape),
-  signin: Joi.object({ email: shape.email, password: shape.password }),
+  signin: Joi.object({
+    email: shape.email,
+    // для signin убираем валидацию длинны пароля в целях безопасности
+    password: Joi.string().required(),
+  }),
 };

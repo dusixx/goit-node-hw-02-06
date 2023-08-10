@@ -2,9 +2,11 @@ export const HTTP_STATUS = {
   ok: 200,
   created: 201,
   badRequest: 400,
+  unauth: 401,
   notFound: 404,
   conflict: 409,
   unprocContent: 422,
+  serverError: 500,
 };
 
 export const HTTP_STATUS_TEXT = {

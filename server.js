@@ -1,9 +1,7 @@
 import app from './app.js';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import chalk from 'chalk';
-import { connectMongoDb } from './helpers/index.js';
-
-dotenv.config();
+import { db } from './helpers/index.js';
 
 const { SERVER_PORT } = process.env;
 const DB_NAME = 'db-contacts';
@@ -11,7 +9,7 @@ const DB_NAME = 'db-contacts';
 console.log(chalk.blueBright('\nConnecting db...'));
 
 try {
-  await connectMongoDb(DB_NAME);
+  await db.connect(DB_NAME);
   console.log('Database connection successful');
 
   console.log(chalk.blueBright('\nSrarting server...'));

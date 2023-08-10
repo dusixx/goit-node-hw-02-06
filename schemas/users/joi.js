@@ -13,8 +13,6 @@ const shape = {
   email: Joi.string()
     .email({ minDomainSegments: 2 })
     .messages({ 'string.email': email.message })
-    // .pattern(email.pattern)
-    // .messages({ 'string.pattern.base': email.message })
     .required(),
 
   // string.min

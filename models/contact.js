@@ -1,5 +1,5 @@
 import { model } from 'mongoose';
-import * as hook from './hooks.js';
+import { hook } from './hooks.js';
 import { mongooseSchema as schema } from '../schemas/contacts/index.js';
 
 // валидация при обновлении

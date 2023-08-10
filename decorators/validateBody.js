@@ -10,7 +10,6 @@ export const validateBody = schema => {
       req.validatedBody = await schema.validateAsync(req.body);
       next();
     } catch (err) {
-      // console.log(err);
       next(HttpError(HTTP_STATUS.badRequest, err.message));
     }
   };

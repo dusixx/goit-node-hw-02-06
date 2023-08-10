@@ -5,6 +5,6 @@ import { ctrl } from '../../controllers/auth/index.js';
 
 export const router = express.Router();
 
-router.post('/signup', validateBody(schema.signup), ctrl.signup);
+router.post('/signup', /* validateBody(schema.signup), */ ctrl.signup);
 
 router.post('/signin', validateBody(schema.signin), ctrl.signin);

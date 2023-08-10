@@ -4,7 +4,7 @@ import { db } from '../helpers/index.js';
 
 const ERR_CODE_DUPLICATE_KEY = 11000;
 
-export const handlePostSaveError = function (err, doc, next) {
+const handlePostSaveError = function (err, doc, next) {
   switch (err.name) {
     case 'ValidationError':
       const { reason } = db.parseValidationErrorMessage(err.message);
@@ -22,12 +22,12 @@ export const handlePostSaveError = function (err, doc, next) {
   next();
 };
 
-export const handlePreUpdateValidate = function (next) {
+const handlePreUpdateValidate = function (next) {
   this.options.runValidators = true;
   next();
 };
 
-export const handlePreSaveFormatting = function (next) {
+const handlePreSaveFormatting = function (next) {
   const doc = this._doc;
 
   Object.entries(doc).forEach(([key, value]) => {
@@ -35,4 +35,10 @@ export const handlePreSaveFormatting = function (next) {
     if (formatter) doc[key] = formatter(value);
   });
   next();
+};
+
+export const hook = {
+  handlePostSaveError,
+  handlePreUpdateValidate,
+  handlePreSaveFormatting,
 };

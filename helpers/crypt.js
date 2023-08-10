@@ -2,19 +2,19 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 
-const DEF_HASH_SALT = 10;
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, JWT_EXPIRES_IN, HASH_SALT } = process.env;
 
 export const token = {
-  make(id, expiresIn = '23h') {
+  make(id, expiresIn = JWT_EXPIRES_IN) {
     return jwt.sign({ id }, JWT_SECRET, { expiresIn });
   },
-  verify() {
+  verify(token, key = JWT_SECRET) {
     try {
-      const { id } = jwt.verify(token, (key = JWT_SECRET));
-      return id;
+      return jwt.verify(token, key);
     } catch {
-      return null;
+      // false вместо null, чтобы работала деструктуризация
+      // const { id } = verify(...)
+      return false;
     }
   },
   decode(token) {
@@ -30,11 +30,12 @@ export const crypt = {
       return false;
     }
   },
-  async hash(s, salt = DEF_HASH_SALT) {
+  async hash(s, salt = HASH_SALT) {
     try {
-      return await bcrypt.hash(s, salt);
+      // без конвертации в число - ошибка
+      return await bcrypt.hash(s, Number(salt));
     } catch {
-      return null;
+      return '';
     }
   },
 };

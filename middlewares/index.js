@@ -1,1 +1,2 @@
-export * from './isValidId.js';
+export * from './validateId.js';
+export * from './verifyToken.js';

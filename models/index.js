@@ -1,1 +1,2 @@
-export * from './contacts.js';
+export * from './contact.js';
+export * from './user.js';

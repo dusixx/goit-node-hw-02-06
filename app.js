@@ -1,18 +1,18 @@
 import express from 'express';
 import cors from 'cors';
 import logger from 'morgan';
-import { router as contactsRouter } from './routes/api/contacts.js';
+import { contactsRouter, authRouter } from './routes/api/index.js';
 
 const app = express();
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
-app.use(logger(formatsLogger));
-app.use(cors());
-
 // авто конвертация бинарных данных
 // в заданный полем Content-type формат
 app.use(express.json());
+app.use(logger(formatsLogger));
+app.use(cors());
 
+app.use('/api/auth', authRouter);
 app.use('/api/contacts', contactsRouter);
 
 // неизвестный маршрут

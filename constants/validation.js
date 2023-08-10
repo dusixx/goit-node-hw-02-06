@@ -1,6 +1,12 @@
-export const VALIDATION = {
+export const REGEXP = {
+  name: /^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/,
+  phone: /^([\s-]*\d[\s-]*){10}$/,
+  email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, ///^\s*\S+@\S+\.\S+\s*$/,
+};
+
+export const VALIDATION_DATA = {
   name: {
-    pattern: /^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/,
+    pattern: REGEXP.name,
     message: [
       'First name and last name (optional)',
       'must contain only latin letters,',
@@ -9,14 +15,14 @@ export const VALIDATION = {
     ].join(' '),
   },
   phone: {
-    pattern: /^([\s-]*\d[\s-]*){10}$/,
+    pattern: REGEXP.phone,
     message: [
       'Phone must be 10 digits long',
       'and may contain spaces and hyphens',
     ].join(' '),
   },
   email: {
-    pattern: /^\s*\S+@\S+\.\S+\s*$/,
+    pattern: REGEXP.email,
     message: 'Invalid email',
   },
 };

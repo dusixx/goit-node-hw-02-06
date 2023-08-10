@@ -23,10 +23,10 @@ export const connectMongoDb = async (dbName, varName = 'DB_HOST') => {
  */
 export const parseValidationErrorMessage = errOrMsg => {
   const message = errOrMsg?.message ?? errOrMsg ?? '';
-  // premsg1: premsg2: message[customMessage]
-  const [, result] = message.match(/^(?:[^:]+:){2}(.+)$/);
+  // premsg1: premsg2: reason[customMessage]
+  const [, reason] = message.match(/^(?:[^:]+:){2}\s+(.+)$/);
 
-  return result.trim();
+  return { reason };
 };
 
 /**
@@ -37,7 +37,11 @@ export const parseValidationErrorMessage = errOrMsg => {
 export const parseDupKeyErrorMessage = errOrMsg => {
   const message = errOrMsg?.message ?? errOrMsg ?? '';
   // для случая с индексом по отдельным полям (некомбинированного)
-  const [, result] = message.match(/\{(.+):.+\}$/);
+  const [, collection] = message.match(/^[^:]+:\s+([^\s]+)/);
+  const [, key] = message.match(/{\s+(.+):.+\}$/);
 
-  return result.trim();
+  return {
+    key,
+    collection,
+  };
 };

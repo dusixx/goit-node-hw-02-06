@@ -8,17 +8,18 @@ import {
 
 const ERR_CODE_DUPLICATE_KEY = 11000;
 
-export const handlePostSaveError = (err, data, next) => {
+export const handlePostSaveError = function (err, doc, next) {
   switch (err.name) {
     case 'ValidationError':
-      err.message = parseValidationErrorMessage(err.message);
+      const { reason } = parseValidationErrorMessage(err.message);
+      err.message = reason;
       err.status = HTTP_STATUS.badRequest;
       break;
 
     case 'MongoServerError':
       if (err.code === ERR_CODE_DUPLICATE_KEY) {
-        const dupKey = parseDupKeyErrorMessage(err.message);
-        err.message = `A contact with the same ${dupKey} already exists`;
+        const { key } = parseDupKeyErrorMessage(err.message);
+        err.message = `Duplicate key: "${key}"`;
         err.status = HTTP_STATUS.conflict;
       }
   }
@@ -31,8 +32,12 @@ export const handlePreUpdateValidate = function (next) {
 };
 
 export const handlePreSaveFormatting = function (next) {
-  Object.entries(format).forEach(([key, formatter]) => {
-    this[key] = formatter(this[key]);
+  // this._doc - добавляемые данные (документ)
+  const doc = this._doc;
+
+  Object.entries(doc).forEach(([key, value]) => {
+    const formatter = format[key];
+    if (formatter) doc[key] = formatter(value);
   });
   next();
 };

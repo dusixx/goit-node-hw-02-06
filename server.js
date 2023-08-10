@@ -8,13 +8,13 @@ dotenv.config();
 const { SERVER_PORT } = process.env;
 const DB_NAME = 'db-contacts';
 
-console.log(chalk.bgGrey('\nConnecting db...'));
+console.log(chalk.blueBright('\nConnecting db...'));
 
 try {
   await connectMongoDb(DB_NAME);
   console.log('Database connection successful');
 
-  console.log(chalk.bgGrey('Srarting server...'));
+  console.log(chalk.blueBright('\nSrarting server...'));
 
   app.listen(SERVER_PORT, () => {
     console.log(

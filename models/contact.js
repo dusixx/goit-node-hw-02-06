@@ -8,7 +8,7 @@ schema.pre('findOneAndUpdate', hook.handlePreUpdateValidate);
 // форматирование перед сохранением
 schema.pre('save', hook.handlePreSaveFormatting);
 
-// обработка ошибок при обновлении/добавлении
+// обработка ошибок при обновлении и добавлении
 schema.post('findOneAndUpdate', hook.handlePostSaveError);
 schema.post('save', hook.handlePostSaveError);
 

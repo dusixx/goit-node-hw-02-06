@@ -7,11 +7,14 @@ const AUTH_TYPE = 'Bearer';
 
 const _verify = async (req, res, next) => {
   const { authorization = '' } = req.headers;
-  const [authType, tokenStr] = authorization.split(/\s+/);
+  const [authType, authToken] = authorization.split(/\s+/);
 
   if (authType === AUTH_TYPE) {
-    const { id } = token.verify(tokenStr);
-    if (id && User.findById(id)) return next();
+    const { id } = token.verify(authToken);
+    if (id && User.findById(id)) {
+      // запоминаем id юзера, сделавшего текущий запрос
+      return (req.userId = id) && next();
+    }
   }
 
   throw HttpError(HTTP_STATUS.unauth);

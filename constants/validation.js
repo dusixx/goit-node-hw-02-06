@@ -1,4 +1,4 @@
-export const REGEXP = {
+const REGEXP = {
   name: /^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/,
   phone: /^([\s-]*\d[\s-]*){10}$/,
   email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, ///^\s*\S+@\S+\.\S+\s*$/,

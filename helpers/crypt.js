@@ -12,8 +12,8 @@ export const token = {
     try {
       return jwt.verify(token, key);
     } catch {
-      // false вместо null, чтобы работала деструктуризация
-      // const { id } = verify(...)
+      // false вместо null, чтобы всегда
+      // работало: const { id } = verify(...)
       return false;
     }
   },

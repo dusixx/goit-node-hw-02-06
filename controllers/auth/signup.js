@@ -6,6 +6,6 @@ export const signup = async ({ body }, res) => {
   const password = await crypt.hash(body.password);
   const { name, email } = await User.create({ ...body, password });
 
-  // (!) здесь НЕ отпаравляем токен, нужно подтвердить актуальность email
+  // не отправляем токен, нужно подтвердить актуальность email
   res.status(HTTP_STATUS.created).json({ name, email });
 };

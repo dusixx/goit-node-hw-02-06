@@ -4,7 +4,7 @@ import { HttpError, token, crypt } from '../../helpers/index.js';
 
 const ERR_AUTH_FAILED = 'email or password is invalid';
 
-// (!?) при повторных sigin выдается новый токен
+// (!) при повторных sigin выдается новый токен
 // При этом все предыдущие - валидны
 // Это, вероятно, не проблема и должно контролиться на фронте
 

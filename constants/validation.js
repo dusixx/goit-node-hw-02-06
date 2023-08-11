@@ -2,6 +2,7 @@ const REGEXP = {
   name: /^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/,
   phone: /^([\s-]*\d[\s-]*){10}$/,
   email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, ///^\s*\S+@\S+\.\S+\s*$/,
+  subscription: /^starter|pro|business$/,
 };
 
 export const VALIDATION_DATA = {
@@ -24,5 +25,9 @@ export const VALIDATION_DATA = {
   email: {
     pattern: REGEXP.email,
     message: 'Invalid email',
+  },
+  subscription: {
+    patter: REGEXP.subscription,
+    message: 'Invalid subscription type',
   },
 };

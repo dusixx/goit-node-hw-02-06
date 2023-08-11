@@ -1,6 +1,5 @@
 import { HTTP_STATUS } from '../constants/index.js';
-import { format } from '../helpers/index.js';
-import { db } from '../helpers/index.js';
+import { format, db } from '../helpers/index.js';
 
 const ERR_CODE_DUPLICATE_KEY = 11000;
 

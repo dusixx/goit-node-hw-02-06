@@ -23,6 +23,18 @@ const shape = Object.entries({ name, email }).reduce(
       minlength: 6,
       required: true,
     },
+    subscription: {
+      type: String,
+      enum: {
+        values: ['starter', 'pro', 'business'],
+        message: '{VALUE} is not supported',
+      },
+      default: 'starter',
+    },
+    token: {
+      type: String,
+      default: null,
+    },
   }
 );
 
@@ -31,6 +43,8 @@ shape.email.unique = true;
 
 // для единообразия используем валидатор Joi
 shape.email.validate.validator = isValidEmail;
+
+console.log(shape);
 
 export const schema = new Schema(shape, {
   versionKey: false,

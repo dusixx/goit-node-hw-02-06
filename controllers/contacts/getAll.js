@@ -7,10 +7,14 @@ export const getAll = async ({ userId: owner, query }, res) => {
   const { page = DEF_PAGE, limit = DEF_LIMIT } = query;
   const skip = (page - 1) * limit;
 
-  const result = await Contact.find({ owner }, '-createdAt -updatedAt', {
-    skip,
-    limit,
-  }).populate('owner', 'name email');
+  const result = await Contact.find(
+    { owner, ...query },
+    '-createdAt -updatedAt',
+    {
+      skip,
+      limit,
+    }
+  ).populate('owner', 'name email');
 
   res.json(result);
 };

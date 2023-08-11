@@ -12,8 +12,8 @@ export const token = {
     try {
       return jwt.verify(token, key);
     } catch {
-      // false вместо null, чтобы всегда
-      // работало: const { id } = verify(...)
+      // false вместо null,
+      // чтобы работало const { id } = verify(..)
       return false;
     }
   },
@@ -32,7 +32,7 @@ export const crypt = {
   },
   async hash(s, salt = HASH_SALT) {
     try {
-      // без конвертации в число - ошибка
+      // без конвертации в число выдает ошибку
       return await bcrypt.hash(s, Number(salt));
     } catch {
       return '';

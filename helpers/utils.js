@@ -8,7 +8,7 @@ export const isValidEmail = (v, options = { minDomainSegments: 2 }) => {
   return !error;
 };
 
-export const detailSrvErrMsg = ({ method, url } = {}, message) => {
+export const detailErrorMessage = ({ method, url } = {}, message) => {
   return { path: `${method} ${url}`, message };
 };
 

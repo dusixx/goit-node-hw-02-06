@@ -9,8 +9,8 @@ export const validateBody = schema => {
       // (при частичном обновлении)
       req.validatedBody = await schema.validateAsync(req.body);
       next();
-    } catch ({ message }) {
-      next(HttpError(HTTP_STATUS.badRequest, message));
+    } catch (err) {
+      next(HttpError(HTTP_STATUS.badRequest, err.message));
     }
   };
 };

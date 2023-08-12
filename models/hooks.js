@@ -1,38 +1,44 @@
 import { HTTP_STATUS } from '../constants/index.js';
-import { format } from '../helpers/index.js';
-
-import {
-  parseValidationErrorMessage,
-  parseDupKeyErrorMessage,
-} from '../helpers/mongoDb.js';
+import { /* format, */ db } from '../helpers/index.js';
 
 const ERR_CODE_DUPLICATE_KEY = 11000;
 
-export const handlePostSaveError = (err, data, next) => {
+const handlePostSaveError = function (err, doc, next) {
   switch (err.name) {
     case 'ValidationError':
-      err.message = parseValidationErrorMessage(err.message);
+      const { reason } = db.parseValidationErrorMessage(err.message);
+      err.message = reason;
       err.status = HTTP_STATUS.badRequest;
       break;
 
     case 'MongoServerError':
       if (err.code === ERR_CODE_DUPLICATE_KEY) {
-        const dupKey = parseDupKeyErrorMessage(err.message);
-        err.message = `A contact with the same ${dupKey} already exists`;
+        const { key } = db.parseDupKeyErrorMessage(err.message);
+        err.message = `index: dup key: "${key}"`;
         err.status = HTTP_STATUS.conflict;
       }
   }
   next();
 };
 
-export const handlePreUpdateValidate = function (next) {
+const handlePreUpdateValidate = function (next) {
   this.options.runValidators = true;
   next();
 };
 
-export const handlePreSaveFormatting = function (next) {
-  Object.entries(format).forEach(([key, formatter]) => {
-    this[key] = formatter(this[key]);
-  });
-  next();
+// const handlePreSaveFormatting = function (next) {
+//   const doc = this._doc;
+
+//   // если для поля с именем [key] есть форматтер - форматируем его
+//   Object.entries(doc).forEach(([key, value]) => {
+//     const formatter = format[key];
+//     if (formatter) doc[key] = formatter(value);
+//   });
+//   next();
+// };
+
+export const hook = {
+  handlePostSaveError,
+  handlePreUpdateValidate,
+  // handlePreSaveFormatting,
 };

@@ -1,45 +1,27 @@
 import express from 'express';
-import * as contactsSchemas from '../../schemas/index.js';
-import { contactsController } from '../../controllers/index.js';
 import { validateBody } from '../../decorators/index.js';
-import { isValidId } from '../../middlewares/index.js';
+import { joiSchema as schema } from '../../schemas/contacts/index.js';
+import { mdw } from '../../middlewares/index.js';
+import { ctrl } from '../../controllers/contacts/index.js';
 
 export const router = express.Router();
 
-// GET
-// получение списка всех контактов
-router.get('/', contactsController.listContacts);
+router.use(mdw.authenticate);
 
-// GET id
-// получение контакта с заднным id
-router.get('/:id', isValidId, contactsController.getContactById);
+router.use('/:id', mdw.validateId);
 
-// POST
-// добавление нового контакта
-router.post(
-  '/',
-  validateBody(contactsSchemas.contactAddSchema),
-  contactsController.addContact
-);
+router.get('/', ctrl.getAll);
 
-// PUT id
-// изменение контакта с заданным id
-router.put(
-  '/:id',
-  isValidId,
-  validateBody(contactsSchemas.contactAddSchema),
-  contactsController.updateContactById
-);
+router.get('/:id', ctrl.getById);
 
-// PATCH id/favorite
-// изменение поля favorite
+router.post('/', validateBody(schema.add), ctrl.add);
+
+router.put('/:id', validateBody(schema.add), ctrl.updateById);
+
+router.delete('/:id', ctrl.removeById);
+
 router.patch(
   '/:id/favorite',
-  isValidId,
-  validateBody(contactsSchemas.contactUpdateFavoriteSchema),
-  contactsController.updateContactFavoriteById
+  validateBody(schema.updateStatus),
+  ctrl.updateStatusById
 );
-
-// DELETE id
-// удаление контакта с заданным id
-router.delete('/:id', isValidId, contactsController.removeContactById);

@@ -1,5 +1,5 @@
 import { HTTP_STATUS } from '../constants/http.js';
-import { token as jwt, HttpError, isLikeJWT } from '../helpers/index.js';
+import { token as jwt, HttpError } from '../helpers/index.js';
 import { User } from '../models/user.js';
 
 const AUTH_TYPE = 'Bearer';
@@ -22,6 +22,3 @@ export const authenticate = async (req, res, next) => {
 
   throw HttpError(HTTP_STATUS.unauth);
 };
-
-const token = jwt.create();
-console.log(jwt.decode(token));

@@ -12,12 +12,14 @@ export const detailSrvErrMsg = ({ method, url } = {}, message) => {
   return { path: `${method} ${url}`, message };
 };
 
+// добавлят вызов trim() всем строковым полям
 export const setJoiShapeTrimAll = shape => {
   Object.entries(shape).forEach(([key, field]) => {
     if (field.type === 'string') shape[key] = field.trim();
   });
 };
 
+// добавлят свойство { trim: true } всем строковым полям
 export const setMongooseShapeTrimAll = shape => {
   Object.entries(shape).forEach(([, field]) => {
     if (field.type === String) field.trim = true;

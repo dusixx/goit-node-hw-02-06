@@ -12,11 +12,10 @@ export const verifyToken = async (req, res, next) => {
     const { id } = jwt.verify(authToken);
 
     if (id) {
-      // если токен валиден и есть в БД для данного id -
+      // если токен валиден и есть в БД для данного id,
       // считаем авторизацию успешной
       const user = (req.user = await User.findById(id));
-      // (!?) можно (user?.token === authToken),
-      // а если зашел с разных девайсов и тп
+      // if(user?.token === authToken) -> есть нюансы
       if (user?.token) return next();
     }
   }

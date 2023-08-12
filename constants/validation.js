@@ -17,6 +17,7 @@ export const VALIDATION_DATA = {
       'start with a capital',
       'and be at least 2 characters long',
     ].join(' '),
+    normalizer: v => v.replace(/\s+/, ' '),
   },
   phone: {
     pattern: REGEXP.phone,
@@ -24,6 +25,7 @@ export const VALIDATION_DATA = {
       'Phone must be 10 digits long',
       'and may contain spaces and hyphens',
     ].join(' '),
+    normalizer: v => v.replace(/[^\d]/g, ''),
   },
   email: {
     pattern: REGEXP.email,

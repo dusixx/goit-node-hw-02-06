@@ -9,6 +9,7 @@ const shape = {
     type: String,
     required: true,
     match: [name.pattern, name.message],
+    set: name.normalizer,
   },
   email: {
     type: String,

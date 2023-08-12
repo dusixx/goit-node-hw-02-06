@@ -9,11 +9,13 @@ const shape = {
     type: String,
     required: true,
     match: [name.pattern, name.message],
+    set: name.normalizer,
   },
   phone: {
     type: String,
     required: true,
     match: [phone.pattern, phone.message],
+    set: phone.normalizer,
   },
   email: {
     type: String,

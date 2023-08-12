@@ -14,5 +14,6 @@ export const signin = async ({ body }, res) => {
 
   // сохраняем токен в БД
   await User.findByIdAndUpdate(foundUser._id, { token });
+
   res.json({ token });
 };

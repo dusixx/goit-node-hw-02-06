@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { VALIDATION_DATA } from '../../constants/index.js';
-import { setJoiShapeTrimAll } from '../../helpers/index.js';
+import { isValidEmail, setJoiShapeTrimAll } from '../../helpers/index.js';
 
 const { name, phone, email } = VALIDATION_DATA;
 

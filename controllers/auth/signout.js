@@ -5,6 +5,5 @@ export const signout = async ({ user }, res) => {
   const { _id: id } = user;
   await User.findByIdAndUpdate(id, { token: null });
 
-  // res.status(HTTP_STATUS.noContent).json();
   res.json({ message: 'Successfully' });
 };

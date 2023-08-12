@@ -14,7 +14,7 @@ const handlePostSaveError = function (err, doc, next) {
     case 'MongoServerError':
       if (err.code === ERR_CODE_DUPLICATE_KEY) {
         const { key } = db.parseDupKeyErrorMessage(err.message);
-        err.message = `"${key}" already exists`;
+        err.message = `index: dup key: "${key}"`;
         err.status = HTTP_STATUS.conflict;
       }
   }
@@ -22,6 +22,7 @@ const handlePostSaveError = function (err, doc, next) {
 };
 
 const handlePreUpdateValidate = function (next) {
+  // console.log('-- Inside handlePreUpdateValidate --');
   this.options.runValidators = true;
   next();
 };
@@ -29,6 +30,7 @@ const handlePreUpdateValidate = function (next) {
 const handlePreSaveFormatting = function (next) {
   const doc = this._doc;
 
+  // если для поля с именем [key] есть форматтер - форматируем его
   Object.entries(doc).forEach(([key, value]) => {
     const formatter = format[key];
     if (formatter) doc[key] = formatter(value);

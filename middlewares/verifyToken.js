@@ -1,5 +1,5 @@
 import { HTTP_STATUS } from '../constants/http.js';
-import { token, HttpError } from '../helpers/index.js';
+import { token as jwt, HttpError } from '../helpers/index.js';
 import { User } from '../models/user.js';
 
 const AUTH_TYPE = 'Bearer';
@@ -9,12 +9,15 @@ export const verifyToken = async (req, res, next) => {
   const [authType, authToken] = authorization.split(/\s+/);
 
   if (authType === AUTH_TYPE) {
-    const { id } = token.verify(authToken);
+    const { id } = jwt.verify(authToken);
 
-    if (id && User.findById(id)) {
-      // запоминаем id текущего пользователя,
-      // для использования в следующих middleware
-      return (req.userId = id) && next();
+    if (id) {
+      // если токен валиден и есть в БД для данного id -
+      // считаем авторизацию успешной
+      const user = (req.user = await User.findById(id));
+      // (!?) можно (user?.token === authToken),
+      // а если зашел с разных девайсов и тп
+      if (user?.token) return next();
     }
   }
 

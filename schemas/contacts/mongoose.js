@@ -1,46 +1,47 @@
 import { Schema } from 'mongoose';
 import { VALIDATION_DATA } from '../../constants/index.js';
-import { isValidEmail } from '../../helpers/index.js';
+import { setMongooseShapeTrimAll } from '../../helpers/index.js';
 
 const { name, phone, email } = VALIDATION_DATA;
-const { ObjectId } = Schema.Types;
 
-const shape = Object.entries({ name, phone, email }).reduce(
-  (res, [fieldName, { pattern, message }]) => {
-    res[fieldName] = {
-      type: String,
-      required: true,
-      trim: true,
-      validate: {
-        validator: v => pattern.test(v),
-        message,
-      },
-    };
-    return res;
+const shape = {
+  name: {
+    type: String,
+    required: true,
+    match: [name.pattern, name.message],
   },
-  {
-    favorite: {
-      type: Boolean,
-      default: false,
+  phone: {
+    type: String,
+    required: true,
+    match: [phone.pattern, phone.message],
+  },
+  email: {
+    type: String,
+    required: true,
+    validate: {
+      validator: email.validator,
+      message: email.message,
     },
-    owner: {
-      type: ObjectId,
-      ref: 'users',
-      required: true,
-    },
-  }
-);
+  },
+  favorite: {
+    type: Boolean,
+    default: false,
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+};
 
-// email и phone должны быть уникальными
-// (!!) upd: у разных owner контакты могут повторяться
-// Таким образом, глобально в коллекции contacts могут быть дубли
-// НЕ должны дублироваться контакты у одного и того же owner
-// shape.email.unique = shape.phone.unique = true;
+// добавляем trim всем строковым полям
+setMongooseShapeTrimAll(shape);
 
-// для единообразия используем валидатор Joi
-shape.email.validate.validator = isValidEmail;
-
-export const schema = new Schema(shape, {
+// убираем автодобавление поля с номером версии,
+// инициируем автодобавление даты создания/обновления
+const options = {
   versionKey: false,
   timestamps: true,
-});
+};
+
+export const schema = new Schema(shape, options);

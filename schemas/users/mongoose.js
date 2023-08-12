@@ -1,54 +1,48 @@
 import { Schema } from 'mongoose';
 import { VALIDATION_DATA } from '../../constants/index.js';
-import { isValidEmail } from '../../helpers/index.js';
+import { setMongooseShapeTrimAll } from '../../helpers/index.js';
 
-const { name, email } = VALIDATION_DATA;
+const { name, email, subscription } = VALIDATION_DATA;
 
-const shape = Object.entries({ name, email }).reduce(
-  (res, [fieldName, { pattern, message }]) => {
-    res[fieldName] = {
-      type: String,
-      required: true,
-      trim: true,
-      validate: {
-        validator: v => pattern.test(v),
-        message,
-      },
-    };
-    return res;
+const shape = {
+  name: {
+    type: String,
+    required: true,
+    match: [name.pattern, name.message],
   },
-  {
-    password: {
-      type: String,
-      minlength: 6,
-      required: true,
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: email.validator,
+      message: email.message,
     },
-    subscription: {
-      type: String,
-      enum: {
-        values: ['starter', 'pro', 'business'],
-        message: '{VALUE} is not supported',
-      },
-      default: 'starter',
-    },
-    token: {
-      type: String,
-      default: null,
-    },
-  }
-);
+  },
+  password: {
+    type: String,
+    minlength: 6,
+    required: true,
+  },
+  subscription: {
+    type: String,
+    match: [subscription.pattern, subscription.message],
+    default: subscription.default,
+  },
+  token: {
+    type: String,
+    default: null,
+  },
+};
 
-// email должен быть уникальным
-shape.email.unique = true;
+// добавляем trim всем строковым полям
+setMongooseShapeTrimAll(shape);
 
-// для единообразия используем валидатор Joi
-shape.email.validate.validator = isValidEmail;
-
-console.log(shape);
-
-export const schema = new Schema(shape, {
+// убираем автодобавление поля с номером версии,
+// инициируем автодобавление даты создания/обновления
+const options = {
   versionKey: false,
   timestamps: true,
-});
+};
 
-// schema.index({ email: 1 }, { unique: true });
+export const schema = new Schema(shape, options);

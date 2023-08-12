@@ -1,12 +1,8 @@
 import { HTTP_STATUS } from '../../constants/index.js';
 import { User } from '../../models/index.js';
-import { HttpError, token, crypt } from '../../helpers/index.js';
+import { HttpError, token as jwt, crypt } from '../../helpers/index.js';
 
 const ERR_AUTH_FAILED = 'email or password is invalid';
-
-// (!) при повторных sigin выдается новый токен
-// При этом все предыдущие - валидны
-// Это, вероятно, не проблема и должно контролиться на фронте
 
 export const signin = async ({ body }, res) => {
   const { email, password } = body;
@@ -14,6 +10,9 @@ export const signin = async ({ body }, res) => {
 
   const success = await crypt.compare(password, foundUser?.password);
   if (!success) throw HttpError(HTTP_STATUS.unauth, ERR_AUTH_FAILED);
+  const token = jwt.create(foundUser._id);
 
-  res.json({ token: token.make(foundUser._id) });
+  // сохраняем токен в БД
+  await User.findByIdAndUpdate(foundUser._id, { token });
+  res.json({ token });
 };

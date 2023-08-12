@@ -1,7 +1,11 @@
 import Joi from 'joi';
 import { VALIDATION_DATA } from '../../constants/index.js';
+import { setJoiShapeTrimAll } from '../../helpers/index.js';
 
 const { name, phone, email } = VALIDATION_DATA;
+
+// (!) owner добавляется в контроллере после joi-валидации
+// Тут он не нужен
 
 const shape = {
   name: Joi.string()
@@ -22,19 +26,12 @@ const shape = {
   favorite: Joi.boolean().default(false),
 };
 
+// добавляем trim всем строковым полям
+setJoiShapeTrimAll(shape);
+
 export const schema = {
   add: Joi.object(shape),
   updateStatus: Joi.object({
     favorite: Joi.boolean().required(),
   }),
 };
-
-// все поля обязательны
-// export const contactAddSchema = Joi.object(schemeObject).options({
-//   presence: 'required',
-// });
-
-// минимум одно обязательное
-// export const updatedContactScheme = Joi.object(schemeObject)
-//   .or(...Object.keys(schemeObject))
-//   .messages({ 'object.missing': 'At least one field is required' });

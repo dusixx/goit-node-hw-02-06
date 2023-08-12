@@ -1,6 +1,6 @@
-import app from './app.js';
 import 'dotenv/config';
 import chalk from 'chalk';
+import { app } from './app.js';
 import { db } from './helpers/index.js';
 
 const { SERVER_PORT } = process.env;

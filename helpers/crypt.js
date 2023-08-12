@@ -5,7 +5,7 @@ import 'dotenv/config';
 const { JWT_SECRET, JWT_EXPIRES_IN, HASH_SALT } = process.env;
 
 export const token = {
-  make(id, expiresIn = JWT_EXPIRES_IN) {
+  create(id, expiresIn = JWT_EXPIRES_IN) {
     return jwt.sign({ id }, JWT_SECRET, { expiresIn });
   },
   verify(token, key = JWT_SECRET) {

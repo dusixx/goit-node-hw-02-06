@@ -6,7 +6,7 @@ import { ctrl } from '../../controllers/contacts/index.js';
 
 export const router = express.Router();
 
-router.use(mdw.verifyToken);
+router.use(mdw.authenticate);
 
 router.use('/:id', mdw.validateId);
 

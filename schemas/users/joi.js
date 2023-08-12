@@ -19,7 +19,7 @@ const shape = {
     .messages({ 'string.email': email.message })
     .required(),
 
-  password: Joi.string().trim().min(PASSWORD_MIN_LEN).required(),
+  password: Joi.string().min(PASSWORD_MIN_LEN).required(),
 
   subscription: Joi.string()
     .pattern(subscription.pattern)

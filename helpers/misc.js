@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 export const isStr = v => typeof v === 'string';
+export const isFunc = v => typeof v === 'function';
 
 // joi-валидатор для email
 export const isValidEmail = (v, options = { minDomainSegments: 2 }) => {
@@ -25,3 +26,6 @@ export const setMongooseShapeTrimAll = shape => {
     if (field.type === String) field.trim = true;
   });
 };
+
+export const makeUniqueStr = () =>
+  `${Date.now()}${Math.round(Math.random() * 1e9)}`;

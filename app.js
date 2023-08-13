@@ -4,6 +4,7 @@ import logger from 'morgan';
 import { contactsRouter, authRouter } from './routes/api/index.js';
 import { HTTP_STATUS } from './constants/index.js';
 import { detailErrorMessage } from './helpers/index.js';
+import { mdw } from './middlewares/index.js';
 
 export const app = express();
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -13,6 +14,10 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(express.json());
 app.use(logger(formatsLogger));
 app.use(cors());
+
+// неавторизированным не даем доступ к public
+//app.use(mdw.authenticate);
+app.use(express.static('public'));
 
 app.use(/\/api\/(auth|users)/, authRouter);
 app.use('/api/contacts', contactsRouter);

@@ -34,6 +34,9 @@ const shape = {
     type: String,
     default: null,
   },
+  avatarUrl: {
+    type: String,
+  },
 };
 
 // добавляем trim всем строковым полям

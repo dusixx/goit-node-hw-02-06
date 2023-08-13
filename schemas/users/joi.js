@@ -21,6 +21,8 @@ const shape = {
 
   password: Joi.string().min(PASSWORD_MIN_LEN).required(),
 
+  avatar: Joi.binary().default(null),
+
   subscription: Joi.string()
     .pattern(subscription.pattern)
     .messages({ 'string.pattern.base': subscription.message })

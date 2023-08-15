@@ -1,5 +1,5 @@
 import { HTTP_STATUS } from '../../constants/index.js';
-import { HttpError } from '../../helpers/httpError.js';
+import { HttpError } from '../../helpers/index.js';
 import { Contact } from '../../models/index.js';
 
 const ERR_ALREADY_EXISTS =

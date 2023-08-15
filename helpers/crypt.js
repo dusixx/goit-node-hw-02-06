@@ -41,6 +41,10 @@ export const crypt = {
   },
 };
 
-export const rndUUID = () => {
+export const uuid = () => {
   return crypto.randomUUID().replaceAll('-', '');
+};
+
+export const getHash = (str, algorithm = 'md5') => {
+  return crypto.createHash(algorithm).update(str).digest('hex');
 };

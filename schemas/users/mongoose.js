@@ -19,6 +19,7 @@ const shape = {
       validator: email.validator,
       message: email.message,
     },
+    set: email.normalizer,
   },
   password: {
     type: String,

@@ -1,8 +1,8 @@
 import { isFunc } from '../helpers/index.js';
 
-export const cleanup = action => {
+export const handleError = cb => {
   return async (err, req, res, next) => {
-    isFunc(action) && (await action(req));
+    isFunc(cb) && (await cb(req));
     next(err);
   };
 };

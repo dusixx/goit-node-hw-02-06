@@ -1,6 +1,11 @@
 import { isValidEmail } from '../helpers/index.js';
 
 export const JIMP_SUPPORTED_FORMATS = ['jpeg', 'png', 'bmp', 'tiff', 'gif'];
+export const JIMP_SUPPORTED_EXTNAMES = [
+  ...JIMP_SUPPORTED_FORMATS,
+  'jpg',
+  'tif',
+];
 
 export const REGEXP = {
   // email: /^\s*\S+@\S+\.\S+\s*$/,
@@ -34,6 +39,7 @@ export const VALIDATION_DATA = {
     pattern: REGEXP.email,
     message: 'Invalid email',
     validator: isValidEmail,
+    normalizer: v => v.toLowerCase(),
   },
   subscription: {
     pattern: REGEXP.subscription,

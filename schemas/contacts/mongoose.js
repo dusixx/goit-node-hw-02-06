@@ -24,6 +24,7 @@ const shape = {
       validator: email.validator,
       message: email.message,
     },
+    set: email.normalizer,
   },
   favorite: {
     type: Boolean,

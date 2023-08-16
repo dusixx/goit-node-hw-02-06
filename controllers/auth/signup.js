@@ -2,7 +2,7 @@ import { crypt, Avatar } from '../../helpers/index.js';
 import { HTTP_STATUS, AVATAR_OPTIONS } from '../../constants/index.js';
 import { User } from '../../models/index.js';
 
-const { theme, size } = AVATAR_OPTIONS;
+const { gravaTheme: theme, size } = AVATAR_OPTIONS;
 
 export const signup = async ({ body, file }, res) => {
   const { name, email, password } = body;

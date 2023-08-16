@@ -18,6 +18,7 @@ export const processAvatarFile = async (req, res, next) => {
 
   if (avatar) {
     await avatar.moveTo(AVATAR_OPTIONS.publicPath);
+
     try {
       await avatar.resize(RESIZE_OPTIONS);
     } catch {

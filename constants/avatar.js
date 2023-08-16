@@ -17,5 +17,5 @@ export const GRAVATAR = {
 export const AVATAR_OPTIONS = {
   publicPath: 'public/avatars',
   size: AVATAR_SIZE,
-  theme: GRAVATAR.theme.robot,
+  gravaTheme: GRAVATAR.theme.robot,
 };

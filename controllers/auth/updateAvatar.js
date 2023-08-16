@@ -15,6 +15,8 @@ export const updateAvatar = async ({ user, file }, res) => {
   });
 
   // удаляем старый аватар, если это не gravatar-ссылка
+  // todo: 'avavatrs' 'public' надо вынести в константы
+  // или задавать в конструктор new Avatar(..)
   if (oldAvatarUrl.startsWith('avatars')) {
     const fullName = path.resolve('public', oldAvatarUrl);
     try {

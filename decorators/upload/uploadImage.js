@@ -3,14 +3,14 @@ import path from 'path';
 import { HttpError, uuid } from '../../helpers/index.js';
 import {
   HTTP_STATUS,
-  REGEXP,
   JIMP_SUPPORTED_FORMATS,
+  JIMP_SUPPORTED_MIMETYPES,
 } from '../../constants/index.js';
 
 const destination = path.resolve('tmp');
 export const MAX_FILE_SIZE = 1024 ** 2 * 5;
 const SUPPORTED_FORMATS = JIMP_SUPPORTED_FORMATS.join(', ');
-const isImageType = mimeType => REGEXP.imageMimeType.test(mimeType);
+const isImageType = mimeType => JIMP_SUPPORTED_MIMETYPES.includes(mimeType);
 
 //
 // опции Multer

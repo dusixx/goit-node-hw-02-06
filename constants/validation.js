@@ -1,19 +1,11 @@
 import { isValidEmail } from '../helpers/index.js';
 
-export const JIMP_SUPPORTED_FORMATS = ['jpeg', 'png', 'bmp', 'tiff', 'gif'];
-export const JIMP_SUPPORTED_EXTNAMES = [
-  ...JIMP_SUPPORTED_FORMATS,
-  'jpg',
-  'tif',
-];
-
-export const REGEXP = {
+const REGEXP = {
   // email: /^\s*\S+@\S+\.\S+\s*$/,
   name: /^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/,
   phone: /^([\s-]*\d[\s-]*){10}$/,
   email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   subscription: /^starter|pro|business$/,
-  imageMimeType: RegExp(`^image\/(${JIMP_SUPPORTED_FORMATS.join('|')})$`, 'i'),
 };
 
 export const VALIDATION_DATA = {

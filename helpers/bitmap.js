@@ -8,7 +8,7 @@ import { JIMP_SUPPORTED_EXTNAMES } from '../constants/index.js';
  *
  * @param {string} filePath - файл изображения
  * @param {object} options -
- *  - jpeg - если задано валидное значение (1-100),
+ *  - jpeg - если задано валидное значение (0-100),
  *    сохраняет изображение в формате jpeg с расширением .jpg
  *  - removeOriginal - если true, удаляет оригинальное изображение в случае,
  *    если его имя не совпадает с обработанным (например, был tif - сохранили в jpg)
@@ -49,7 +49,7 @@ const resize = async (
 const checkFileFormat = async filePath => {
   const extname = path.extname(filePath).toLowerCase().slice(1);
   if (!JIMP_SUPPORTED_EXTNAMES.includes(extname))
-    throw TypeError('Unsupported format');
+    throw Error('Unsupported format');
 };
 
 export const bitmap = {

@@ -34,3 +34,19 @@ router.patch(
   validateBody(schema.updateSubscription),
   ctrl.updateSubscription
 );
+
+router.patch(
+  '/avatars',
+  mdw.authenticate,
+  uploadSingleImage('avatar'),
+
+  // (req, res, next) => {
+  //   console.log(req);
+  //   next(Error('Interrupted'));
+  // },
+  //validateBody(schema.updateAvatar),
+
+  mdw.processAvatarFile,
+  ctrl.updateAvatar,
+  mdw.removeAvatarOnError
+);

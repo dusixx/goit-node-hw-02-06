@@ -31,7 +31,10 @@ export const processAvatarFile = async (req, res, next) => {
       // Даже если возникла ошибка при ресайзе -
       // moveTo() уже отработает
       file.newPath = avatar.path;
-      file.avatarUrl = path.join('avatars', avatar.fileName);
+
+      file.avatarUrl = path
+        .join('avatars', avatar.fileName)
+        .replaceAll('\\', '/');
     }
   }
 

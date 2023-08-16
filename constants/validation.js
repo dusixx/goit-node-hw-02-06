@@ -1,9 +1,9 @@
 import { isValidEmail } from '../helpers/index.js';
 
 const REGEXP = {
+  // email: /^\s*\S+@\S+\.\S+\s*$/,
   name: /^\s*[A-Z][a-z]+(\s+[A-Z][a-z]+)?\s*$/,
   phone: /^([\s-]*\d[\s-]*){10}$/,
-  // email: /^\s*\S+@\S+\.\S+\s*$/,
   email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   subscription: /^starter|pro|business$/,
 };
@@ -31,6 +31,7 @@ export const VALIDATION_DATA = {
     pattern: REGEXP.email,
     message: 'Invalid email',
     validator: isValidEmail,
+    normalizer: v => v.toLowerCase(),
   },
   subscription: {
     pattern: REGEXP.subscription,

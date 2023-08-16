@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import 'dotenv/config';
 
 const { JWT_SECRET, JWT_EXPIRES_IN, HASH_SALT } = process.env;
@@ -38,4 +39,16 @@ export const crypt = {
       return '';
     }
   },
+};
+
+export const uuid = () => {
+  return crypto.randomUUID().replaceAll('-', '');
+};
+
+export const getHash = (str, algorithm = 'md5') => {
+  return crypto.createHash(algorithm).update(str).digest('hex');
+};
+
+export const rndStr = () => {
+  return `${Date.now()}${Math.round(Math.random() * 1e9)}`;
 };

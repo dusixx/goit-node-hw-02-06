@@ -1,6 +1,9 @@
 import Joi from 'joi';
+import fs from 'fs/promises';
 
 export const isStr = v => typeof v === 'string';
+export const isFunc = v => typeof v === 'function';
+export const isNum = v => !isNaN(v - parseFloat(v));
 
 // joi-валидатор для email
 export const isValidEmail = (v, options = { minDomainSegments: 2 }) => {
@@ -24,4 +27,14 @@ export const setMongooseShapeTrimAll = shape => {
   Object.entries(shape).forEach(([, field]) => {
     if (field.type === String) field.trim = true;
   });
+};
+
+export const checkFileExists = async path => {
+  try {
+    (await fs.stat(path)).isFile();
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw Error('File not found');
+    }
+  }
 };

@@ -15,7 +15,8 @@ export const authenticate = async (req, res, next) => {
       // если токен валиден и есть в БД для данного id,
       // считаем авторизацию успешной
       const user = (req.user = await User.findById(id));
-      // if(user?.token === authToken) -> есть нюансы
+      // (!!) if(user?.token === authToken) -> есть нюансы
+      // Например, вход с разных устройств в один и тот же акк
       if (user?.token) return next();
     }
   }

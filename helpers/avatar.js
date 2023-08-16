@@ -1,13 +1,20 @@
 import path from 'path';
 import fs from 'fs/promises';
 import Jimp from 'jimp';
-// (!!) надо чтобы в index.js avatar.js импортировался после зависимостей ниже
+
+// (!!) надо чтобы в index.js avatar.js импортировался после импортируемых им самим зависимостей
 // Иначе будет ReferenceError: Cannot access '...' before initialization
-import { HttpError, bitmap, checkFileExists, getGravatarUrl } from './index.js';
-import { HTTP_STATUS } from '../constants/index.js';
+import { HttpError, bitmap, checkFileExists, getHash as md5 } from './index.js';
+import { HTTP_STATUS, GRAVATAR } from '../constants/index.js';
+
+//
+// Avatar
+//
 
 export class Avatar {
-  static getGravatarUrl = getGravatarUrl;
+  static getGravatarUrl = (email, { theme, size } = {}) => {
+    return `${GRAVATAR.baseUrl}/avatar/${md5(email)}?d=${theme}&s=${size}`;
+  };
   #path;
 
   constructor(filePath) {

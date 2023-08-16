@@ -16,8 +16,7 @@ app.use(express.json());
 app.use(logger(formatsLogger));
 app.use(cors());
 
-// неавторизированным не даем доступ к public
-//app.use(mdw.authenticate);
+// (!!) неавторизированным не должно давать доступ к public
 app.use(express.static('public'));
 
 app.use(/\/api\/(auth|users)/, authRouter);

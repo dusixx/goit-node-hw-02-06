@@ -1,10 +1,15 @@
-import { crypt } from '../../helpers/index.js';
-import { HTTP_STATUS } from '../../constants/index.js';
+import { crypt, Avatar } from '../../helpers/index.js';
+import { HTTP_STATUS, AVATAR_OPTIONS } from '../../constants/index.js';
 import { User } from '../../models/index.js';
 
-export const signup = async ({ body, file = '' }, res) => {
+const { theme, size } = AVATAR_OPTIONS;
+
+export const signup = async ({ body, file }, res) => {
   const { name, email, password } = body;
-  const { avatarUrl } = file;
+
+  // ексли файл аватара не загружен, генерируем gravatar
+  const avatarUrl =
+    file?.avatarUrl ?? Avatar.getGravatarUrl(email, { theme, size });
 
   // создаем профиль пользователя
   await User.create({

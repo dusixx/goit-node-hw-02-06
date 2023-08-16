@@ -1,4 +1,4 @@
-import { getHash as md5 } from './index.js';
+const AVATAR_SIZE = 250;
 
 export const GRAVATAR = {
   baseUrl: 'https://www.gravatar.com',
@@ -14,6 +14,8 @@ export const GRAVATAR = {
   },
 };
 
-export const getGravatarUrl = (email, { theme, size } = {}) => {
-  return `${GRAVATAR.baseUrl}/avatar/${md5(email)}?d=${theme}&s=${size}`;
+export const AVATAR_OPTIONS = {
+  publicPath: 'public/avatars',
+  size: AVATAR_SIZE,
+  theme: GRAVATAR.theme.robot,
 };

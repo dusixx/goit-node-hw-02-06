@@ -17,9 +17,9 @@ router.post(
   uploadSingleImage('avatar'),
   validateBody(schema.signup),
   mdw.isUserExists,
-  mdw.processAvatar,
+  mdw.processAvatarFile,
   ctrl.signup,
-  mdw.removeAvatar
+  mdw.removeAvatarOnError
 );
 
 router.post(/\/(signin|login)/, validateBody(schema.signin), ctrl.signin);

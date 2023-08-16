@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import 'dotenv/config';
 import crypto from 'crypto';
+import 'dotenv/config';
 
 const { JWT_SECRET, JWT_EXPIRES_IN, HASH_SALT } = process.env;
 

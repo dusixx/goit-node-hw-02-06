@@ -1,8 +1,8 @@
 import { validateId } from './validateId.js';
 import { authenticate } from './authenticate.js';
 import { isUserExists } from './isUserExists.js';
-import { processAvatar } from './processAvatar.js';
-import { removeAvatar } from './removeAvatar.js';
+import { processAvatarFile } from './processAvatarFile.js';
+import { removeAvatarOnError } from './removeAvatarOnError.js';
 import {
   ctrlWrapper,
   ctrlWrapperAsync,
@@ -13,6 +13,6 @@ export const mdw = {
   validateId: ctrlWrapperAsync(validateId),
   authenticate: ctrlWrapperAsync(authenticate),
   isUserExists: ctrlWrapperAsync(isUserExists),
-  processAvatar: ctrlWrapperAsync(processAvatar),
-  removeAvatar: handleError(removeAvatar),
+  processAvatarFile: ctrlWrapperAsync(processAvatarFile),
+  removeAvatarOnError: handleError(removeAvatarOnError),
 };

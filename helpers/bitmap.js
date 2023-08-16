@@ -4,6 +4,17 @@ import Jimp from 'jimp';
 import { isNum } from './index.js';
 import { JIMP_SUPPORTED_EXTNAMES } from '../constants/index.js';
 
+/**
+ *
+ * @param {string} filePath - файл изображения
+ * @param {object} options -
+ *  - jpeg - если задано валидное значение (1-100),
+ *    сохраняет изображение в формате jpeg с расширением .jpg
+ *  - removeOriginal - если true, удаляет оригинальное изображение в случае,
+ *    если его имя не совпадает с обработанным (например, был tif - сохранили в jpg)
+ *  - cover - если true, масштабирует с сохранением пропорций, обрезая лишнее
+ * @returns {string} - полное имя к сохраненному изображению
+ */
 const resize = async (
   filePath,
   { width: w, height: h, jpeg: qual, cover, removeOriginal } = {}
@@ -11,8 +22,9 @@ const resize = async (
   let img = await Jimp.read(filePath);
 
   let saveAsJpeg = qual >= 0 || qual <= 100;
+
   let newFilePath =
-    saveAsJpeg && img._originalMime !== 'image/jpeg'
+    saveAsJpeg && !img._originalMime.endsWith('jpeg')
       ? filePath.replace(/(?<=\.)\w{3,4}$/, 'jpg')
       : filePath;
 

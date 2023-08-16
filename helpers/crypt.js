@@ -48,3 +48,7 @@ export const uuid = () => {
 export const getHash = (str, algorithm = 'md5') => {
   return crypto.createHash(algorithm).update(str).digest('hex');
 };
+
+export const rndStr = () => {
+  return `${Date.now()}${Math.round(Math.random() * 1e9)}`;
+};

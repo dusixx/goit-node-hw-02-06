@@ -1,10 +1,16 @@
 import path from 'path';
-import { Avatar } from '../helpers/index.js';
+import { Avatar, GRAVATAR, HttpError } from '../helpers/index.js';
+import { HTTP_STATUS } from '../constants/index.js';
 
-const AVATARS_PATH = 'public/avatars';
 const AVATAR_SIZE = 250;
 
-const DEF_RESIZE_OPTIONS = {
+const AVATAR_OPTIONS = {
+  publicPath: 'public/avatars',
+  size: AVATAR_SIZE,
+  theme: GRAVATAR.theme.robot,
+};
+
+const RESIZE_OPTIONS = {
   width: AVATAR_SIZE,
   height: AVATAR_SIZE,
   jpeg: 60,
@@ -16,9 +22,9 @@ export const processAvatar = async ({ body, file }, res, next) => {
   const avatar = file && (await new Avatar(file.path));
 
   if (avatar) {
-    await avatar.moveTo(AVATARS_PATH);
+    await avatar.moveTo(AVATAR_OPTIONS.publicPath);
     try {
-      await avatar.resize(DEF_RESIZE_OPTIONS);
+      await avatar.resize(RESIZE_OPTIONS);
     } catch {
       throw HttpError(
         HTTP_STATUS.unprocContent,
@@ -30,7 +36,7 @@ export const processAvatar = async ({ body, file }, res, next) => {
 
   file.avatarUrl = avatar
     ? path.join('avatars', avatar.fileName)
-    : Avatar.getGravatarUrl(body.email, { size: AVATAR_SIZE });
+    : Avatar.getGravatarUrl(body.email, AVATAR_OPTIONS);
 
   next();
 };

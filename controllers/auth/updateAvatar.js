@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { checkFileExists, HttpError } from '../../helpers/index.js';
+import { HttpError } from '../../helpers/index.js';
 import { User } from '../../models/index.js';
 import {
   HTTP_STATUS,
@@ -23,7 +23,6 @@ export const updateAvatar = async ({ user, file }, res) => {
   if (oldAvatarUrl.startsWith(avatarsPath)) {
     const fullName = path.resolve(STATIC_PATH, oldAvatarUrl);
     try {
-      await checkFileExists(fullName);
       await fs.unlink(fullName);
     } catch {}
   }

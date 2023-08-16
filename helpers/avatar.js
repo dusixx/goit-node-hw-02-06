@@ -15,6 +15,7 @@ export class Avatar {
   static getGravatarUrl = (email, { theme, size } = {}) => {
     return `${GRAVATAR.baseUrl}/avatar/${md5(email)}?d=${theme}&s=${size}`;
   };
+
   #path;
 
   constructor(filePath) {

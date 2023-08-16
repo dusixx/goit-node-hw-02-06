@@ -1,8 +1,14 @@
 import path from 'path';
 import { Avatar, HttpError } from '../helpers/index.js';
-import { HTTP_STATUS, AVATAR_OPTIONS } from '../constants/index.js';
+import {
+  HTTP_STATUS,
+  AVATAR_OPTIONS,
+  STATIC_PATH,
+} from '../constants/index.js';
 
-const { size } = AVATAR_OPTIONS;
+const { size, path: avatarsFolder } = AVATAR_OPTIONS;
+
+const AVATARS_PATH = path.join(STATIC_PATH, avatarsFolder);
 
 const RESIZE_OPTIONS = {
   width: size,
@@ -17,7 +23,7 @@ export const processAvatarFile = async (req, res, next) => {
   const avatar = file && (await new Avatar(file.path));
 
   if (avatar) {
-    await avatar.moveTo(AVATAR_OPTIONS.publicPath);
+    await avatar.moveTo(AVATARS_PATH);
 
     try {
       await avatar.resize(RESIZE_OPTIONS);
@@ -33,7 +39,7 @@ export const processAvatarFile = async (req, res, next) => {
       file.newPath = avatar.path;
 
       file.avatarUrl = path
-        .join('avatars', avatar.fileName)
+        .join(avatarsFolder, avatar.fileName)
         .replaceAll('\\', '/');
     }
   }

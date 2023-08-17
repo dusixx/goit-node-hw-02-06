@@ -1,4 +1,6 @@
-const AVATAR_SIZE = 250;
+import 'dotenv/config';
+
+const { AVATARS_DIR: dir } = process.env;
 
 export const GRAVATAR = {
   baseUrl: 'https://www.gravatar.com',
@@ -15,7 +17,8 @@ export const GRAVATAR = {
 };
 
 export const AVATAR_OPTIONS = {
-  path: 'avatars',
-  size: AVATAR_SIZE,
+  dir,
+  width: 250,
+  height: 250,
   gravaTheme: GRAVATAR.theme.robot,
 };

@@ -1,18 +1,16 @@
+import 'dotenv/config';
 import path from 'path';
 import { Avatar, HttpError } from '../helpers/index.js';
-import {
-  HTTP_STATUS,
-  AVATAR_OPTIONS,
-  STATIC_PATH,
-} from '../constants/index.js';
+import { HTTP_STATUS, AVATAR_OPTIONS } from '../constants/index.js';
 
-const { size, path: avatarsFolder } = AVATAR_OPTIONS;
+const { PUBLIC_DIR } = process.env;
+const { width, height, dir: avatarsDir } = AVATAR_OPTIONS;
 
-const AVATARS_PATH = path.join(STATIC_PATH, avatarsFolder);
+const AVATARS_PATH = path.join(PUBLIC_DIR, avatarsDir);
 
 const RESIZE_OPTIONS = {
-  width: size,
-  height: size,
+  width,
+  height,
   jpeg: 60,
   cover: true,
   removeOriginal: true,
@@ -39,7 +37,7 @@ export const processAvatarFile = async (req, res, next) => {
       file.newPath = avatar.path;
 
       file.avatarUrl = path
-        .join(avatarsFolder, avatar.fileName)
+        .join(avatarsDir, avatar.fileName)
         .replaceAll('\\', '/');
     }
   }

@@ -3,14 +3,11 @@ import path from 'path';
 import { Avatar, HttpError } from '../helpers/index.js';
 import { HTTP_STATUS, AVATAR_OPTIONS } from '../constants/index.js';
 
-const { PUBLIC_DIR } = process.env;
-const { width, height, dir: avatarsDir } = AVATAR_OPTIONS;
-
-const AVATARS_PATH = path.join(PUBLIC_DIR, avatarsDir);
+const { PUBLIC_DIR, AVATARS_DIR } = process.env;
+const AVATARS_PATH = path.join(PUBLIC_DIR, AVATARS_DIR);
 
 const RESIZE_OPTIONS = {
-  width,
-  height,
+  ...AVATAR_OPTIONS,
   jpeg: 60,
   cover: true,
   removeOriginal: true,
@@ -37,7 +34,7 @@ export const processAvatarFile = async (req, res, next) => {
       file.newPath = avatar.path;
 
       file.avatarUrl = path
-        .join(avatarsDir, avatar.fileName)
+        .join(AVATARS_DIR, avatar.fileName)
         .replaceAll('\\', '/');
     }
   }

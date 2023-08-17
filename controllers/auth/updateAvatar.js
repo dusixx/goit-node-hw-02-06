@@ -3,10 +3,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { HttpError } from '../../helpers/index.js';
 import { User } from '../../models/index.js';
-import { HTTP_STATUS, AVATAR_OPTIONS } from '../../constants/index.js';
+import { HTTP_STATUS } from '../../constants/index.js';
 
-const { PUBLIC_DIR: publicDir } = process.env;
-const { dir: avatarsDir } = AVATAR_OPTIONS;
+const { PUBLIC_DIR, AVATARS_DIR } = process.env;
 
 export const updateAvatar = async ({ user, file }, res) => {
   if (!file) {
@@ -20,8 +19,8 @@ export const updateAvatar = async ({ user, file }, res) => {
   });
 
   // удаляем старый аватар, если это не gravatar-ссылка
-  if (oldAvatarUrl.startsWith(avatarsDir)) {
-    const fullName = path.resolve(publicDir, oldAvatarUrl);
+  if (oldAvatarUrl.startsWith(AVATARS_DIR)) {
+    const fullName = path.resolve(PUBLIC_DIR, oldAvatarUrl);
     try {
       await fs.unlink(fullName);
     } catch {}

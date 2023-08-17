@@ -1,7 +1,3 @@
-import 'dotenv/config';
-
-const { AVATARS_DIR: dir } = process.env;
-
 export const GRAVATAR = {
   baseUrl: 'https://www.gravatar.com',
   theme: {
@@ -17,7 +13,6 @@ export const GRAVATAR = {
 };
 
 export const AVATAR_OPTIONS = {
-  dir,
   width: 250,
   height: 250,
   gravaTheme: GRAVATAR.theme.robot,

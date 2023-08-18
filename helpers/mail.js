@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import * as mailer from 'nodemailer';
+import mailer from 'nodemailer';
 
 const {
   EMAIL_HOST: host,

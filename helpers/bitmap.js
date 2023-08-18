@@ -13,6 +13,7 @@ import { JIMP_SUPPORTED_EXTNAMES } from '../constants/index.js';
  *  - removeOriginal - если true, удаляет оригинальное изображение в случае,
  *    если его имя не совпадает с обработанным (например, был tif - сохранили в jpg)
  *  - cover - если true, масштабирует с сохранением пропорций, обрезая лишнее
+ *
  * @returns {string} - полное имя к сохраненному изображению
  */
 const resize = async (

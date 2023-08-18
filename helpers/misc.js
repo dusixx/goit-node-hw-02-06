@@ -33,8 +33,6 @@ export const checkFileExists = async path => {
   try {
     (await fs.stat(path)).isFile();
   } catch (err) {
-    if (err.code === 'ENOENT') {
-      throw Error('File not found');
-    }
+    if (err.code === 'ENOENT') throw err;
   }
 };

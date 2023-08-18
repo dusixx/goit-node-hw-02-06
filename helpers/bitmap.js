@@ -19,11 +19,11 @@ const resize = async (
   filePath,
   { width: w, height: h, jpeg: qual, cover, removeOriginal } = {}
 ) => {
-  let img = await Jimp.read(filePath);
+  const img = await Jimp.read(filePath);
 
-  let saveAsJpeg = qual >= 0 || qual <= 100;
+  const saveAsJpeg = qual >= 0 || qual <= 100;
 
-  let newFilePath =
+  const newFilePath =
     saveAsJpeg && !img._originalMime.endsWith('jpeg')
       ? filePath.replace(/(?<=\.)\w{3,4}$/, 'jpg')
       : filePath;

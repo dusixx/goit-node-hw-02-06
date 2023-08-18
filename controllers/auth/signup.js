@@ -4,7 +4,7 @@ import { crypt, Avatar, sendVerificationEmail } from '../../helpers/index.js';
 
 const { gravaTheme: theme, width: size } = AVATAR_OPTIONS;
 
-export const signup = async ({ body, file }, res) => {
+export const signup = async ({ body }, res) => {
   const { name, email, password } = body;
 
   // создаем профиль пользователя
@@ -15,7 +15,7 @@ export const signup = async ({ body, file }, res) => {
     password: await crypt.hash(password),
   });
 
-  // не отправляем токен, нужно подтвердить актуальность email
+  // токен не отправляем, пока не подтвержден email
   res.status(HTTP_STATUS.created).json({
     name,
     email,

@@ -1,6 +1,6 @@
 import { HTTP_STATUS, AVATAR_OPTIONS } from '../../constants/index.js';
 import { User } from '../../models/index.js';
-import { crypt, Avatar, sendVerificationCode } from '../../helpers/index.js';
+import { hash, Avatar, sendVerificationCode } from '../../helpers/index.js';
 
 const { gravaTheme: theme, width: size } = AVATAR_OPTIONS;
 
@@ -12,7 +12,7 @@ export const signup = async ({ body }, res) => {
     ...body,
     avatarUrl: Avatar.getGravatarUrl(email, { theme, size }),
     verificationCode: await sendVerificationCode(email),
-    password: await crypt.hash(password),
+    password: await hash.create(password),
   });
 
   // токен не отправляем, пока не подтвержден email

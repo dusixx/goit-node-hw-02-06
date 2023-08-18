@@ -1,5 +1,5 @@
 import { HTTP_STATUS } from '../constants/http.js';
-import { token as jwt, HttpError } from '../helpers/index.js';
+import { jwt, HttpError } from '../helpers/index.js';
 import { User } from '../models/user.js';
 
 const AUTH_TYPE = 'Bearer';

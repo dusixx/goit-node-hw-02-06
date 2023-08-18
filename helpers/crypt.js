@@ -1,17 +1,17 @@
-import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+import jwtoken from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import 'dotenv/config';
 
 const { JWT_SECRET, JWT_EXPIRES_IN, HASH_SALT } = process.env;
 
-export const token = {
+export const jwt = {
   create(id, expiresIn = JWT_EXPIRES_IN) {
-    return jwt.sign({ id }, JWT_SECRET, { expiresIn });
+    return jwtoken.sign({ id }, JWT_SECRET, { expiresIn });
   },
   verify(token, key = JWT_SECRET) {
     try {
-      return jwt.verify(token, key);
+      return jwtoken.verify(token, key);
     } catch {
       // false вместо null,
       // чтобы работало const { id } = verify(..)
@@ -19,11 +19,11 @@ export const token = {
     }
   },
   decode(token) {
-    return jwt.decode(token);
+    return jwtoken.decode(token);
   },
 };
 
-export const crypt = {
+export const hash = {
   async compare(s, hash) {
     try {
       return await bcrypt.compare(s, hash);
@@ -31,7 +31,7 @@ export const crypt = {
       return false;
     }
   },
-  async hash(s, salt = HASH_SALT) {
+  async create(s, salt = HASH_SALT) {
     try {
       // без конвертации в число выдает ошибку
       return await bcrypt.hash(s, Number(salt));
@@ -41,12 +41,15 @@ export const crypt = {
   },
 };
 
-export const uuid = () => {
-  return crypto.randomUUID().replaceAll('-', '');
+export const uuid = splitter => {
+  return crypto.randomUUID().replaceAll('-', splitter ?? '');
 };
 
-export const getHash = (str, algorithm = 'md5') => {
-  return crypto.createHash(algorithm).update(str).digest('hex');
+export const createHash = (
+  str,
+  { algorithm = 'md5', encoding = 'hex' } = {}
+) => {
+  return crypto.createHash(algorithm).update(str).digest(encoding);
 };
 
 export const rndStr = () => {

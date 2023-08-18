@@ -1,11 +1,15 @@
 import path from 'path';
 import fs from 'fs/promises';
 import Jimp from 'jimp';
-
+import { HTTP_STATUS, GRAVATAR } from '../constants/index.js';
 // (!!) надо чтобы в index.js avatar.js импортировался после импортируемых им самим зависимостей
 // Иначе будет ReferenceError: Cannot access '...' before initialization
-import { HttpError, bitmap, checkFileExists, getHash as md5 } from './index.js';
-import { HTTP_STATUS, GRAVATAR } from '../constants/index.js';
+import {
+  HttpError,
+  bitmap,
+  checkFileExists,
+  createHash as md5,
+} from './index.js';
 
 //
 // Avatar

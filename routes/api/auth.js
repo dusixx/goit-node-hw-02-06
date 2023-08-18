@@ -23,7 +23,7 @@ router.get('/verify/:verificationCode', ctrl.verifyEmail);
 router.post(
   '/verify',
   decor.validateBody(schema.verifyEmail),
-  ctrl.resendVerificationEmail
+  ctrl.resendVerificationCode
 );
 
 router.get('/current', mdw.authenticate, ctrl.getCurrent);

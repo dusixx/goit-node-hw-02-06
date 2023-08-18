@@ -1,4 +1,4 @@
-import { sendVerificationEmail, HttpError } from '../../helpers/index.js';
+import { sendVerificationCode, HttpError } from '../../helpers/index.js';
 import { HTTP_STATUS } from '../../constants/index.js';
 import { User } from '../../models/index.js';
 
@@ -8,7 +8,7 @@ const MESSAGE = {
   emailResent: 'Verification email sent',
 };
 
-export const resendVerificationEmail = async ({ body: { email } }, res) => {
+export const resendVerificationCode = async ({ body: { email } }, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -20,7 +20,7 @@ export const resendVerificationEmail = async ({ body: { email } }, res) => {
   }
 
   // повторно отправляем код
-  await sendVerificationEmail(email, user.verificationCode);
+  await sendVerificationCode(email, user.verificationCode);
 
   res.json({
     message: MESSAGE.emailResent,

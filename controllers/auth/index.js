@@ -5,6 +5,8 @@ import { signout } from './signout.js';
 import { getCurrent } from './getCurrent.js';
 import { updateSubscription } from './updateSubscription.js';
 import { updateAvatar } from './updateAvatar.js';
+import { verifyEmail } from './verifyEmail.js';
+import { resendVerificationEmail } from './resendVerificationEmail.js';
 
 export const ctrl = {
   signup: ctrlWrapperAsync(signup),
@@ -13,4 +15,6 @@ export const ctrl = {
   updateSubscription: ctrlWrapperAsync(updateSubscription),
   updateAvatar: ctrlWrapperAsync(updateAvatar),
   getCurrent: ctrlWrapper(getCurrent),
+  verifyEmail: ctrlWrapperAsync(verifyEmail),
+  resendVerificationEmail: ctrlWrapperAsync(resendVerificationEmail),
 };

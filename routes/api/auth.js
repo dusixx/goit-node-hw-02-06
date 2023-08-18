@@ -14,17 +14,22 @@ export const router = express.Router();
 
 router.post(
   /\/(signup|register)/,
-  uploadSingleImage('avatar'),
   validateBody(schema.signup),
   mdw.isUserExists,
-  mdw.processAvatarFile,
-  ctrl.signup,
-  mdw.removeAvatarOnError
+  ctrl.signup
 );
 
 router.post(/\/(signin|login)/, validateBody(schema.signin), ctrl.signin);
 
 router.post(/\/(signout|logout)/, mdw.authenticate, ctrl.signout);
+
+router.get('/verify/:verificationCode', ctrl.verifyEmail);
+
+router.post(
+  '/verify',
+  validateBody(schema.verifyEmail),
+  ctrl.resendVerificationEmail
+);
 
 router.get('/current', mdw.authenticate, ctrl.getCurrent);
 

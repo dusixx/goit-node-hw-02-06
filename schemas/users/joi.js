@@ -46,4 +46,7 @@ export const schema = {
       .required()
       .trim(),
   }),
+  verifyEmail: Joi.object({
+    email: shape.email,
+  }),
 };

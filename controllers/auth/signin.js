@@ -6,14 +6,18 @@ const ERR_AUTH_FAILED = 'email or password is invalid';
 
 export const signin = async ({ body }, res) => {
   const { email, password } = body;
-  const foundUser = await User.findOne({ email });
 
-  const success = await crypt.compare(password, foundUser?.password);
-  if (!success) throw HttpError(HTTP_STATUS.unauth, ERR_AUTH_FAILED);
-  const token = jwt.create(foundUser._id);
+  const user = await User.findOne({ email });
+  const success =
+    user?.verified && (await crypt.compare(password, user?.password));
 
-  // сохраняем токен в БД
-  await User.findByIdAndUpdate(foundUser._id, { token });
+  if (!success) {
+    throw HttpError(HTTP_STATUS.unauth, ERR_AUTH_FAILED);
+  }
+
+  // генерим токен и сохраняем его в БД
+  const token = jwt.create(user._id);
+  await User.findByIdAndUpdate(user._id, { token });
 
   res.json({ token });
 };

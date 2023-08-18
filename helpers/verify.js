@@ -9,7 +9,7 @@ export const sendVerificationEmail = async (to, verificationCode = uuid()) => {
     subject: 'Email verification',
     html: [
       `<a href="${host}/api/auth/verify/${verificationCode}"`,
-      ` target="_blank">`,
+      ` target="_blank" rel="noopener noreferrer nofollow">`,
       `Click to verify email address`,
       `</a>`,
     ].join(''),
